@@ -1,0 +1,196 @@
+﻿@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+@model ProjetoLeLol.ViewModel.ChampProfileVM
+
+<script>
+    $(document).ready(function () {
+        var panels = $('.user-infos');
+        var panelsButton = $('.dropdown-user');
+        panels.hide();
+
+        CheckError();
+
+        //Click dropdown
+        panelsButton.click(function () {
+            //get data-for attribute
+            var dataFor = $(this).attr('data-for');
+            //current button
+            var idFor = $(dataFor);
+
+            var currentButton = $(this);
+            idFor.slideToggle(400, function () {
+                //Completed slidetoggle
+                if (idFor.is(':visible')) {
+                    currentButton.html('<i class="glyphicon glyphicon-chevron-up text-muted"></i>');
+                }
+                else {
+                    currentButton.html('<i class="glyphicon glyphicon-chevron-down text-muted"></i>');
+                }
+            })
+        });
+
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $('#btnGames').click(GamesList);
+    });
+
+    function CheckError() {
+        var hasError = document.getElementById("hdnErr").className;
+        var errMsg = $("#hdnErr").val();
+
+        if (hasError == "True")
+            window.alert(errMsg);
+    }
+
+    function GamesList() {
+        var id = $('#ChampId').attr('name');
+
+        window.location = "/championship/gameslist?&id_champ=" + id;
+    }
+</script>
+
+<style>
+    .user-row {
+        margin-bottom: 14px;
+    }
+
+        .user-row:last-child {
+            margin-bottom: 0;
+        }
+
+    .dropdown-user {
+        margin: 13px 0;
+        padding: 5px;
+        height: 100%;
+    }
+
+        .dropdown-user:hover {
+            cursor: pointer;
+        }
+
+    .table-user-information > tbody > tr {
+        border-top: 1px solid rgb(221, 221, 221);
+    }
+
+        .table-user-information > tbody > tr:first-child {
+            border-top: 0;
+        }
+
+
+        .table-user-information > tbody > tr > td {
+            border-top: 0;
+        }
+
+    .toppad {
+        margin-top: 20px;
+    }
+</style>
+
+<div class="jumbotron">
+    <input type="hidden" id="hdnErr" value="@Model.Err.MsgError" class="@Model.Err.HasError.ToString()"/>
+    <input type="hidden" id="ChampId" name="@Model.Championship.Id" />
+    <div class="row" style="background: url(/Images/MarcaDAgua-JanelasLaranja.png) no-repeat; background-size: 300px; background-position: 50%;">
+        <div class="panel panel-info">
+            <div class="panel-heading" style="color: #0d0d0d; border: 0;">
+                <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>@Model.Championship.Title</b></h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <table class="table table-user-information" style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label class="label" style="color: #939393;">Prêmio</label></td>
+                                <td>
+                                    <label class="label">@Model.Championship.Prize</label></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="label" style="color: #939393;">Data de Inicio</label></td>
+                                <td>
+                                    <label class="label">@Model.Championship.StartDate.ToString("dd/MM/yyyy")</label></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="label" style="color: #939393;">Número de Times</label></td>
+                                <td>
+                                    <label class="label">@Model.Championship.NumberOfGames</label></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="label" style="color: #939393;">Custo</label></td>
+                                <td>
+                                    <label class="label">@Model.Championship.Entry</label></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="label" style="color: #939393;">Link para as regras</label></td>
+                                <td>
+                                    <label class="label"><a class="btn btn-primary btn-large" href="@Model.Championship.Link"><i class="fa fa-eye"></i></a></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="label" style="color: #939393;">Link para cadastro Riot</label></td>
+                                <td>
+                                    <label class="label"><a class="btn btn-primary btn-large" href="@Model.Championship.LinkRiot"><i class="fa fa-eye"></i></a></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="label" style="color: #939393;">Inscrever</label>
+                                </td>
+                                <td>
+                                        @Html.Raw(Model.Championship.Html_btn)
+
+                                    @*                                    @if ((Model.CurrentPlayer.IsCaptain || Model.CurrentPlayer.IsSubCaptain) && (Model.Championship.Current || Model.Championship.Type == ProjetoLeLol.Models.ChampionshipType.Pago))
+                                    {
+                                        <form action="/championship/TeamEntry" method="POST">
+                                            <input type="hidden" name="id_champ" value="@Model.Championship.Id">
+                                            <input type="submit" id="btnInvite" class="btn btn-sm btn-success" style="float: left; margin-right: 10px;" value="Participar" />
+                                        </form>
+                                    }
+                                    @if (Model.Championship.Started)
+                                    {
+                                        <button id="btnGames" class="btn btn-sm btn-primary" title="Partidas"><i class="fa fa-list-alt"></i>Lista de Partidas</button>
+                                    }
+                                    else
+                                    {
+                                        <button id="btnGames" class="btn btn-sm btn-primary" title="Partidas"><i class="fa fa-list-alt"></i>Lista de Times</button>
+                                    }*@
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="label" style="color: #939393;">Pagamento</label>
+                                </td>
+                                <td>
+                                    <div>
+                                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                            <input type="hidden" name="cmd" value="_s-xclick">
+                                            <input type="hidden" name="hosted_button_id" value="H34L7KMC6WEWJ">
+                                            <input type="image" src="https://www.paypalobjects.com/pt_BR/BR/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - A maneira fácil e segura de enviar pagamentos online!">
+                                            <img alt="" border="0" src="https://www.paypalobjects.com/pt_BR/i/scr/pixel.gif" width="1" height="1">
+                                        </form>
+
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="label" style="color: #939393;">Lista de Inscritos</label></td>
+                                <td>
+                                    @Html.Raw(Model.Championship.Html_list)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

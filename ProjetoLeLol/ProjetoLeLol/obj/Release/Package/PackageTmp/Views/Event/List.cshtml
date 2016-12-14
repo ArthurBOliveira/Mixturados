@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Show";
+}
+
+@model IEnumerable<ProjetoLeLol.Models.Event>
+
+<script>
+    $(document).ready(function () {
+        $('#tblTeams').DataTable();
+    });
+</script>
+
+<div class="jumbotron" style="color: #939393;">
+    <div class="row" style="background: url(/Images/MarcaDAgua-JanelasLaranja.png) no-repeat; background-size: 560px; background-position: 50%; border: 0;">
+        <div class="panel">
+            <div class="panel-heading" style="background-color: #f87e00; color: #0d0d0d;">
+                <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>Lista de Eventos</b></h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered" id="tblTeams" style="color: #939393; background-color: white">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Endereço</th>
+                            <th>Data</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var e in Model)
+                        {
+                            <tr>
+                                <td>@e.Name</td>
+                                <td>@e.Adress</td>
+                                <td>@e.Date.ToString("dd/MM/yyyy - HH/mm")</td>
+                                <td>@e.Link</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

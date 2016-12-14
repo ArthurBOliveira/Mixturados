@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Player";
+    Layout = "~/Views/Shared/_MasterAdmin.cshtml";
+}
+
+<div>
+    <h2>Player</h2>
+
+    <table class="table table-bordered" id="tblPlayer" style="background-color: white; color: #939393;" >
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Role Principal</th>
+                <th>Role Secundária</th>
+                <th>Horário</th>
+                <th>Estado</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.Name</td>
+                    <td>@p.Role1.ToString()</td>
+                    <td>@p.Role2.ToString()</td>
+                    <td>@p.Schedule.ToString()</td>
+                    <td>@p.State.ToString()</td>
+                    <td><button class="btn btn-primary btn-large" name="@p.Id" title="Visualizar"><i class="fa fa-eye"></i></button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

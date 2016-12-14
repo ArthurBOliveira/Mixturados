@@ -1,0 +1,144 @@
+﻿@{
+    ViewBag.Title = "Show";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+@model ProjetoLeLol.ViewModel.ShowChampX5
+
+<script>
+    $(document).ready(function () {
+        $(".btnN").click(ChampProfile);
+        $(".btnx1").click(ChampProfileX1);
+        $('#tblChampP').DataTable();
+        $('#tblChampF').DataTable();
+        $('#tblChampX').DataTable();
+        $(".btnteam").click(TeamProfile);
+        $('#tblLeague').DataTable({
+            "order": [[1, "desc"]]
+        });
+    });
+
+    function ChampProfile() {
+        var id = $(this).attr('name');
+
+        var win = window.open("/championship/profiles?&id_champ=" + id, '_blank');
+        win.focus();
+    }
+
+    function ChampProfileX1() {
+        var id = $(this).attr('name');
+
+        var win = window.open("/championship/profilesx1?&id_champ=" + id, '_blank');
+        win.focus();
+    }
+
+    function TeamProfile() {
+        var id = $(this).attr('name');
+
+        var win = window.open("/team/profiles?id_team=" + id, '_blank');
+        win.focus();
+    }
+</script>
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="panel">
+            <div class="panel-heading" style="color: #0d0d0d;">
+                <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>Campeonatos do @Model.League.Name</b></h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered" id="tblChampP">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Prêmio</th>
+                            <th>Entrada</th>
+                            <th>Data</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var c in Model.Champs)
+                        {
+                            <tr>
+                                <td>@c.Title</td>
+                                <td>@c.Prize</td>
+                                <td>@c.Entry</td>
+                                <td>@c.StartDate.ToString()</td>
+                                <td>
+                                    <button class="btn btnN btn-primary btn-large" name="@c.Id" title="Visualizar"><i class="fa fa-eye"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <a class="btn btn-primary btn-large" href="@Model.League.LinkRules">Regras Completas da Liga</a>
+
+    <br />
+</div>
+
+<br />
+<div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- Bloco Interno 2 -->
+    <ins class="adsbygoogle"
+        style="display: block"
+        data-ad-client="ca-pub-8858452918865308"
+        data-ad-slot="8211772078"
+        data-ad-format="auto"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+<br />
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="panel">
+            <div class="panel-heading" style="color: #0d0d0d;">
+                <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>Times Pontuados na Liga</b></h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered" id="tblLeague">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Pontos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Nordeste Painhu</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>Neo Outlawz</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>Five Old Monkey</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>Trutas</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>Team Cyclone</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>Xaxablau Teta</td>
+                            <td>3</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

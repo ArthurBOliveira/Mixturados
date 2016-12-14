@@ -1,0 +1,8 @@
+System.ArgumentException: Parameter 'p_email' not found in the collection.
+   at MySql.Data.MySqlClient.MySqlParameterCollection.GetParameterFlexible(String parameterName, Boolean throwOnNotFound)
+   at MySql.Data.MySqlClient.StoredProcedure.GetAndFixParameter(String spName, MySqlSchemaRow param, Boolean realAsFloat, MySqlParameter returnParameter)
+   at MySql.Data.MySqlClient.StoredProcedure.CheckParameters(String spName)
+   at MySql.Data.MySqlClient.StoredProcedure.Resolve(Boolean preparing)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at ProjetoLeLol.DAL.PlayerDAL.PlayerLogin(String email) in c:\Users\Arthur.Oliveira\Documents\Visual Studio 2012\Projects\ProjetoLeLol\ProjetoLeLol\DAL\PlayerDAL.cs:line 28

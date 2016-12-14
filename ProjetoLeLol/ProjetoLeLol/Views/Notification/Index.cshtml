@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Master2.cshtml";
+}
+
+<h2>Index</h2>
+@{
+    ViewBag.Title = "Notification";
+    Layout = "~/Views/Shared/_Master2.cshtml";
+}
+
+@model IEnumerable<ProjetoLeLol.Models.Notification>
+
+<script>
+    $(document).ready(function () {
+        $('#tblNotif').DataTable();
+        $('.view').click(ViewP);
+        $('.respY').click(RespY);
+        $('.respN').click(RespN);
+    });
+
+    function RespY() {
+        var id = $(this).attr('name');
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("AnswerNotif", "Notification")",
+            data: "&id_notif=" + id +
+                  "&resp=" + true,
+            success: function (result) {
+                if (result)
+                    window.alert("Aceito com sucesso!");
+                else
+                    window.alert("Erro!");
+            }
+        });
+    }
+
+    function RespN() {
+        var id = $(this).attr('name');
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("AnswerNotif", "Notification")",
+            data: "&id_notif=" + id +
+                  "&resp=" + false,
+            success: function (result) {
+                if (result)
+                    window.alert("Recusado com sucesso!");
+                else
+                    window.alert("Erro!");
+            }
+        });
+    }
+
+    function DelN() {
+        var id = $(this).attr('name');
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("DelNotif", "Notification")",
+            data: "&id_notif=" + id,
+            success: function (result) {
+                if (result)
+                    location.href = '/notification';
+                else
+                    window.alert("Erro!");
+            }
+        });
+    }
+
+    function ViewP() {
+        var id = $(this).attr("name");
+
+        document.location.href = "/player/profiles?id_player=" + id;
+    }
+</script>
+
+<div class="jumbotron">
+    <h2>Notificações</h2>
+
+    <table class="table table-bordered" id="tblNotif" style="background-color: white; color: #939393;">
+        <thead>
+            <tr>
+                <th style="width: 50%;">Notificação</th>
+                <th>Remetente</th>
+                <th>Data</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var n in Model)
+            {
+                <tr>
+                    <td style="width: 50%;" title="@n.Text">@n.Text</td>
+                    <td>@n.Date.ToString("dd/MM/yyyy - hh:mm")</td>
+                    <td>@n.Sender.Name</td>
+                    <td>
+                        @if (n.Type == ProjetoLeLol.Models.NotificationType.playerCalling || n.Type == ProjetoLeLol.Models.NotificationType.teamCalling)
+                        {
+                            <button class="btn btn-primary btn-large view" name="@n.Sender.Id" title="Visualizar"><i class="fa fa-eye"></i></button>
+                            <button class="btn btn-success btn-large respY" name="@n.Id" title="Aceitar"><i class="fa fa-check"></i></button>
+                            <button class="btn btn-danger btn-large respN" name="@n.Id" title="Recusar"><i class="fa fa-times"></i></button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-danger btn-large resp" name="@n.Id" onclick="DelN()" title="Excluir"><i class="fa fa-times"></i></button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

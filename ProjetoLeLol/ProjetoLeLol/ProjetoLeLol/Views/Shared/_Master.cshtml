@@ -1,0 +1,456 @@
+﻿@{
+    Layout = null;
+}
+
+@*@model ProjetoLeLol.ViewModel.HomeVM*@
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>Mixturados</title>
+    <link href="~/Images/logoMix16.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <link href="~/assets/c769c933a8ed0e304b025376bd97f9ba.css" type="text/css" rel="stylesheet" />
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+    <script src="~/Scripts/jquery-1.11.2.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet" />
+
+    <!--DATATABLES-->
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .width-container, .footerWrap, #copyright {
+            background: url("/Images/trans-bg.png") repeat scroll 0 0 #121212 !important;
+        }
+
+        #header {
+            margin-top: 0;
+        }
+    </style>
+
+
+    <style>
+        body {
+            background-image: url("/Images/background.jpg");
+        }
+    </style>
+
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.3";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+</head>
+
+<body class="main-page frontpage">
+    <a href="#" name="top"></a>
+
+    <nav id="userbar" class="main full transparent row">
+        <div class="column twelve">
+            <ul class="hide-on-mobile horizontal nine columns">
+                <li class="active">
+                    <a href="/home/index">Home</a>
+                </li>
+                <li class="dropdown">
+                    <a href="/player/show">Jogadores</a>
+                </li>
+                <li>
+                    <a href="/team/show">Times</a>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Campeonatos</a>
+
+                    <ul class="content">
+                        <li>
+                            <a href="/championship/current?id_league=1" class="white small">Atual
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/championship/show?id_league=1" class="white small">Lista
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="http://www.facebook.com/mixturadoslol/events">Eventos</a>
+                </li>
+
+                                <li class="dropdown">
+                    <a href="#">A Mixturados</a>
+
+                    <ul id="dropdown-fnatic" class="content">
+                        <li>
+                            <a href="/Home/about" class="white small">Sobre nos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.facebook.com/mixturadoslol/" class="white small">Contato
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Home/support" class="white small">Ajude nos
+                            </a>
+                        </li>
+                    </ul>
+                <li class="dropdown">
+                    <a href="sponsor.html">Parceiros</a>
+
+                    <ul id="dropdown-partner" class="content">
+                        <li>
+                            <a href="http://goo.gl/lzg5n7" class="white small">Iniciativa NoLag
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.game7.com.br/?utm_source=Parceria&utm_medium=CPC&utm_content=Home&utm_campaign=Mixturados" class="white small">Game7
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://gaming.benq.com/" class="white small">TS3 Host
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.playerwear.com.br/mixturados" class="white small">Player Wear
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="show-on-mobile">
+                <li class="mobile-menu">
+                    <a href="#" title="Navigation">&nbsp;</a>
+                    <ul class="show-mobile-menu twelve columns">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="players.html">Jogadores</a>
+                        </li>
+                        <li>
+                            <a href="http://shop.fnatic.com/">Times</a>
+                        </li>
+                        <li>
+                            <a href="http://play.fnatic.com/">Campeonatos</a>
+                        </li>
+                        <li>
+                            <a href="sponsor.html">Parceiros</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="user-menu-options right three columns">
+                <li class="dropdown">
+                    <a class="login-button" href="/player/login">Login</a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="register-button" href="/player/create">Registre-se</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="clear-userbar"></div>
+    <!-- PARCEIROS LOGOS -->
+    <header class="main full transparent row">
+        <div class="column twelve">
+            <h1>
+                <!-- LOGO -->
+                <a id="logo" class="helemc" href="index.html"></a>
+            </h1>
+
+            @*<div class="sponsors">
+                <a href="http://www.monsterenergy.com/">
+                    <img src="cache/filestorage/sponsors/50/logo/0x45_crop-80.png" alt="Monster">
+                </a>
+                <a href="http://gaming.benq.com/">
+                    <img src="cache/filestorage/sponsors/47/logo/0x45_crop-80.png" alt="BenQ">
+                </a>
+                <a href="http://www.steelseries.com/">
+                    <img src="cache/filestorage/sponsors/3/logo/0x45_crop-80.png" alt="SteelSeries">
+                </a>
+
+                <a href="https://www.xsplit.com/Fnatic">
+                    <img src="cache/filestorage/sponsors/51/logo/0x45_crop-80.png" alt="XSplit">
+                </a>
+                <a href="http://www.twitch.tv/team/fnatic">
+                    <img src="cache/filestorage/sponsors/48/logo/0x45_crop-80.png" alt="Twitch">
+                </a>
+                <a href="http://www.dxseat.com/">
+                    <img src="cache/filestorage/sponsors/49/logo/0x45_crop-80.png" alt="DXSeat">
+                </a>
+                <a href="http://www.avast.com/fnatic">
+                    <img src="cache/filestorage/sponsors/44/logo/0x45_crop-80.png" alt="AVAST">
+                </a>
+            </div>*@
+        </div>
+    </header>
+
+    <nav class="sub no-padding row shop-categories" id="search-bar">
+        <ul class="column" id="content-type-filter">
+            <li>
+                <a class="black button" href="http://mixturadoslol.blogspot.com.br/">Notícias
+                </a>
+            </li>
+            <li>
+                <a class="black button" href="http://youtube.com/mixturadoslol">Vídeos
+                </a>
+            </li>
+            <li>
+                <a class="black button" href="https://www.facebook.com/mixturadoslol/events?ref=page_internal">Caravanas
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <section id="content-main">
+        <div id="grid-container" class="full framed row">
+
+            <div class="grid-item nine">
+                <div class="plain box twelve video-module">
+                    <section style="font-size: 15px;">
+                        @RenderBody()
+                    </section>
+                </div>
+            </div>
+
+            @* <div class="grid-item two">
+                <div class="plain box twelve video-module">
+                    <section>
+                        <!--
+            <header>
+				<h4 class="red type news-icon-present"><span class="is-video news-label-text">VIDEOS<span
+					class="news-label-icon" style="background-image: url(public/images/buttons/play-video.png)"></span></span>
+				</h4>
+				<span class="comment-bubble">0</span>
+
+				<h3>
+					<a href="tv/1489/flusha-best-frags-of-2015.html">Flusha - Best Frags of 2015</a>
+				</h3>
+			</header>
+			<article>
+				<figure>
+					<a href="tv/1489/flusha-best-frags-of-2015.html">
+												<img src="../img.youtube.com/vi/zyua5IsvrmQ/hqdefault.jpg" width="279" alt="Flusha - Best Frags of 2015">
+						
+						<div class="figure-overlay"></div>
+                        
+					</a>
+				</figure>
+			</article>
+            -->
+                    </section>
+                </div>
+            </div>*@
+
+            <div class="grid-item three">
+                @* Redes Sociais *@
+                <div class="headerless striped opaque social-media twelve box">
+                    <section class="no-padding">
+
+                        <header>
+                            <h4>Redes Sociais</h4>
+                        </header>
+
+                        <ul>
+                            <li>
+                                <a href="http://twitter.com/mixturadoslol" target="_blank">
+                                    <img src="/Images/twitter.png">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="http://facebook.com/mixturadoslol" target="_blank">
+                                    <img src="/Images/facebook.png">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="http://youtube.com/mixturadoslol" target="_blank">
+                                    <img src="/Images/youtube.png">
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+
+                @* Próximos Camps *@
+                <div class="headerless striped opaque events twelve box">
+                    <section>
+                        <header>
+                            <h4>Próximos Campeonatos</h4>
+                        </header>
+                        <table>
+                            <tr class="live">
+                                <td class="vertical-top">
+                                    <p class="ltr-spacing">ABERTO</p>
+                                </td>
+                                <td class="event-type">
+                                    <img src="/Images/b967be35-icon-trophy.svg" alt="Offline Event / League of Legends">
+                                </td>
+                                <td>
+                                    <a href="/championship/profiles?&id_champ=18" target="_top">
+                                        <p class="ten columns green type">12/09 - 13:00</p>
+                                    </a>
+                                </td>
+                            </tr>
+                             <tr class="live">
+                                <td class="vertical-top">
+                                    <p class="ltr-spacing">ABERTO</p>
+                                </td>
+                                <td class="event-type">
+                                    <img src="/Images/b967be35-icon-trophy.svg" alt="Offline Event / League of Legends">
+                                </td>
+                                <td>
+                                    <a href="/championship/profiles?&id_champ=19" target="_top">
+                                        <p class="ten columns green type">19/09 - 13:00</p>
+                                    </a>
+                                </td>
+                            </tr>
+                             <tr class="live">
+                                <td class="vertical-top">
+                                    <p class="ltr-spacing">ABERTO</p>
+                                </td>
+                                <td class="event-type">
+                                    <img src="/Images/b967be35-icon-trophy.svg" alt="Offline Event / League of Legends">
+                                </td>
+                                <td>
+                                    <a href="/championship/profiles?&id_champ=21" target="_top">
+                                        <p class="ten columns green type">26/09 - 13:00</p>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </section>
+                </div>
+
+                @* Anúncio *@
+                @*<div class="plain opaque ad box twelve">
+                    <section>
+                        <article>
+                            <div class="google-ad" style="width: 300px; height: 250px">
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- Bloco Interno -->
+                                <ins class="adsbygoogle"
+                                    style="display: block"
+                                    data-ad-client="ca-pub-8858452918865308"
+                                    data-ad-slot="6115724873"
+                                    data-ad-format="auto"></ins>
+                                <script>
+                                    (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+                        </article>
+                    </section>
+                </div>*@
+            </div>
+        </div>
+    </section>
+
+    <br />
+    <div>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Bloco Baixo -->
+        <ins class="adsbygoogle"
+            style="display: block"
+            data-ad-client="ca-pub-8858452918865308"
+            data-ad-slot="4634905675"
+            data-ad-format="auto"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    <br />
+
+    <footer class="main">
+        <div class="row">
+            <div class="columns three logo">
+                <a href="index.html" class="logo">
+                    <img src="/Images/LogoPrincipal.png" alt="Fnatic">
+                </a>
+
+
+                <p class="grey">
+                    <small>&copy; 2015, Mixturados<br>
+                        All rights reserved.</small>
+                </p>
+            </div>
+
+
+            <div class="columns six about">
+                <h4>Um pouco de nós</h4>
+
+                <p>
+                    <small>Somos uma empresa que trabalha com o e-sport brasileiro. Gerenciamos campeonatos, eventos, caravanas e muito mais!
+
+                    </small>
+                </p>
+            </div>
+
+
+            <div class="columns three">
+                <h4>Redes Sociais</h4>
+
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="http://www.twitter.com/mixturadoslol" class="white small">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="http://www.facebook.com/mixturadoslol" class="white small">Facebook</a>
+                        </li>
+                        <li>
+                            <a href="http://www.youtube.com/mixturadoslol" class="white small">YouTube</a>
+                        </li>
+                        <li>
+                            <a href="http://www.twitch.tv/mixturadoslol" class="white small">Twitch</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <div class="links row">
+            <div class="columns twelve">
+                <ul class="horizontal">
+                    <li>
+                        <a class="grey" href="https://docs.google.com/forms/d/12bz_3v09T3PtE5HhDay8DI44sYWKMPUlFhdl_7r8eq4/viewform">
+                            <small>Trabalhe Conosco</small>
+                        </a>
+                    </li>
+                    <li class="separator">|</li>
+                    <li>
+                        <a class="grey" href="/Home/about">
+                            <small>Sobre</small>
+                        </a>
+                    </li>
+                    <li class="separator">|</li>
+                    <li>
+                        <a class="grey" href="/Home/support">
+                            <small>Ajude nos</small>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="horizontal right">
+                    <li class="grey">
+                        <script type="text/javascript">!function (t, o, p) { function e() { var t = o.createElement("script"); t.type = "text/javascript", t.async = !0, t.src = ("https:" == o.location.protocol ? "https" : "http") + ":" + p, o.body.appendChild(t) } t.spotId = "73cf9cb1d9eac9a78bb5bd40f7ef16c2", t.spotName = "", t.allowDesktop = !0, t.allowMobile = !1, t.containerId = "spot-im-root", e() }(window.SPOTIM = {}, document, "//v1.spot.im/embed/scripts/launcher.js");</script>
+
+                        <div class="col-md-4">
+                            <div class="fb-like" data-href="https://www.facebook.com/mixturadoslol" data-layout="standard" show_faces="false" data-action="like" colorscheme="dark" data-share="true"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

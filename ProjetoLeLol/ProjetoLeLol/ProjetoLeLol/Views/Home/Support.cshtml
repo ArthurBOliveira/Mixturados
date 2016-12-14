@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Support";
+    Layout = "~/Views/Shared/_Master3.cshtml";
+}
+
+<div class="jumbotron">
+    <h2>Ajude nos</h2>
+    <p>
+        Acha o nosso projeto bacana e quer nos ajudar? Entre em contato com um de nossos líderes e descubra
+       se existe uma vaga para você! Você é daqueles que prefere ajudar com uma quantia em dinheiro?
+       Separamos uma conta no Paypal e no PagSeguro para recebermos as doações!
+       Contamos com o seu apoio! Desde já agradecemos muiiiiito sua colaboração! (Equipe Mixturados)
+    </p>
+    <div>
+        <h2>PagSeguro:</h2>
+        <!-- INICIO FORMULARIO BOTAO PAGSEGURO -->
+        <form action="https://pagseguro.uol.com.br/checkout/v2/donation.html" method="post">
+            <!-- NÃO EDITE OS COMANDOS DAS LINHAS ABAIXO -->
+            <input type="hidden" name="currency" value="BRL" />
+            <input type="hidden" name="receiverEmail" value="arthurboliveira93@gmail.com" />
+            <input type="image" src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/doacoes/205x30-doar-azul.gif" name="submit" alt="Pague com PagSeguro - é rápido, grátis e seguro!" />
+        </form>
+        <!-- FINAL FORMULARIO BOTAO PAGSEGURO -->
+    </div>
+    <div>
+        <h2>Paypal:</h2>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="hosted_button_id" value="6LNVKFBLEQGMC">
+            <input type="image" src="https://www.paypalobjects.com/pt_BR/BR/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - A maneira fácil e segura de enviar pagamentos online!">
+            <img alt="" border="0" src="https://www.paypalobjects.com/pt_BR/i/scr/pixel.gif" width="1" height="1">
+        </form>
+    </div>
+</div>

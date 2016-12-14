@@ -1,0 +1,1 @@
+(function(b){b(function(){if(DataBridge.isFLV){var a=new SWFObject("/public/js/libs/player.swf","mpl",DataBridge.widthFLV,DataBridge.heightFLV,"9");a.addParam("allowfullscreen","true");a.addParam("allowscriptaccess","always");a.addParam("wmode","opaque");a.addVariable("file",DataBridge.linkFLV);a.write("mediaspace")}})})(window.jQuery);

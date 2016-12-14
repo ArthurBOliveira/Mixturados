@@ -1,0 +1,379 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Mixturados</title>
+    <link href="~/Images/logoMix16.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+    <script type="text/javascript" src="/Scripts/jquery-1.11.2.min.js"></script>
+    <link href="~/Bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="~/Bootstrap/js/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-1.11.2.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="/Scripts/jquery-mask.js"></script>
+
+    <!--DATATABLES-->
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">-->
+
+    <!-- Optional theme -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">-->
+
+    <!-- Latest compiled and minified JavaScript -->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>-->
+
+    <style>
+        .dropdown-menu {
+            background-color: #0083c1;
+            color: #0c0d24;
+        }
+
+        .dropdown .dropdown-menu {
+            display: none;
+        }
+
+        /*.dropdown > a,
+        .dropdown > a:hover,
+        .dropdown > a:focus {
+            color: #0083C1;
+            background-color: #0C0D24;
+        }*/
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /*.dropdown:hover > a,
+        .dropdown:hover > a:hover,
+        .dropdown:hover > a:focus {
+            color: #0C0D24;
+            background-color: #0083C1;
+        }*/
+        .barra {
+            background-color: #0C0D24;
+        }
+
+        #MenuLogged > ul > li.dropdown.open > ul > li > a {
+            background-color: #0083C1;
+            color: #0C0D24;
+        }
+
+            #MenuLogged > ul > li.dropdown.open > ul > li > a:hover {
+                background-color: #0C0D24;
+                color: #0083C1;
+            }
+
+        .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+            background-color: #0083C1;
+            color: #0C0D24;
+        }
+
+
+        #MenuLogged > ul > li.dropdown.open > ul {
+            background-color: #0083C1;
+            color: #0C0D24;
+        }
+
+        #MenuLogged > ul > li > a:hover {
+            background-color: #0083C1;
+            color: #0C0D24;
+        }
+
+        #MenuLogged > ul > li > a:focus {
+            background-color: #0083C1;
+            color: #0C0D24;
+        }
+
+        .navbar-toggle {
+            border-color: white;
+            background-color: blue;
+        }
+
+            .navbar-toggle .icon-bar {
+                background-color: white;
+            }
+
+        a {
+            color: #0083C1;
+        }
+
+        .form-login {
+            background-color: #EDEDED;
+            padding-top: 10px;
+            padding-bottom: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border-radius: 15px;
+            border-color: #d2d2d2;
+            border-width: 5px;
+            box-shadow: 0 1px 0 #cfcfcf;
+        }
+
+        h4 {
+            border: 0 solid #fff;
+            border-bottom-width: 1px;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        .navbar {
+            position: relative;
+        }
+
+        /*Rodape*/
+        footer {
+            padding: 25px 0;
+            text-align: center;
+            background-color: #0C0D24;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+            footer a {
+                color: white;
+            }
+
+            footer span.copyright {
+                text-transform: uppercase;
+                text-transform: none;
+                font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+                line-height: 40px;
+                color: white;
+            }
+
+            footer ul.quicklinks {
+                margin-bottom: 0;
+                text-transform: uppercase;
+                text-transform: none;
+                font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+                line-height: 40px;
+            }
+
+        /*.wrapper {
+            min-height: 100%;
+            position: relative;
+        }*/
+
+        .login-dialog {
+            background: white;
+            border: 1px solid #222A3F;
+            color: #222222;
+        }
+
+            .login-dialog .ui-widget-header {
+                background: #222A3F;
+                border: 0;
+                color: #fff;
+                font-weight: normal;
+            }
+
+        .header-wrap {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+        }
+    </style>
+
+    <script type="text/javascript">
+        function Exit() {
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("PlayerExit", "Home")",
+                success: function (result) {
+                    location.href = "/home/index";
+                }
+            });
+        }
+
+        var j = window.innerHeight;
+        if (j > 1375) {
+            //alert('asdasdsa');
+            //document.g .setAttribute('style', 'min-height:' + j - 140 + 'px;');
+            document.getElementById('cont').style.minHeight = '' + j + 'px';
+        }
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <header class="navbar navbar-fixed-top barra header-wrap">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @*<a class="navbar-brand" href="#">Brand</a>*@
+                    <a href="/home/index">
+                        <img class="navbar-brand" src="~/Images/LogoCabecalho.png" style="padding: 5px 5px;" /></a>
+
+                </div>
+
+                <!-- Menu jogador logado -->
+                <div class="collapse navbar-collapse" id="MenuLogged">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/Home/Index">Home</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Jogadores<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="/player/show">Lista</a></li>
+                                <li><a href="/player/profile">Meu perfil</a></li>
+                                <li><a href="/player/edit">Editar</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Campeonatos<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>Lol x5</li>
+                                <li><a href="/championship/current?id_league=1">Atual</a></li>
+                                <li><a href="/championship/show?id_league=1">Lista</a></li>
+                                <li>Lol x1</li>
+                                <li><a href="/championship/current?id_league=2">Atual</a></li>
+                                <li><a href="/championship/show?id_league=2">Lista</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Time<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="/team/show">Lista</a></li>
+                                <li><a href="/team/profile">Meu time</a></li>
+                                <li><a href="/team/create">Criar</a></li>
+                                <li><a href="/team/edit">Editar</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="/championship/create">Criar Campeonato</a></li>
+                                <li><a href="/admin/champ">Campeonatos Admin</a></li>
+                                <li><a href="/news/create">Criar Notícias</a></li>
+                                <li><a href="/admin/eventCreate">Criar Eventos</a></li>
+                                <li><a href="/email/index">Email Admin</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Eventos</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="https://www.facebook.com/mixturadoslol/events">Lista</a></li>
+                                <li><a href="http://mixturadoslol.blogspot.com.br/2015/07/1-mixtura-viagem-final-do-2-split-cblol.html">Mixtura Viagem</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">TV</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="https://www.facebook.com/mixturadoslol">Notícias</a></li>
+                                <li><a href="http://www.twitch.tv/mixturadoslol">Stream</a></li>
+                                <li><a href="https://www.youtube.com/channel/UCMhzAKhQ_cpBA_DtZIj5l0Q">Vídeos</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="http://www.playerwear.com.br/mixturados" class="dropdown-hover" data-hover="dropdown" role="button" aria-expanded="false">Loja</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="/home/vakinha" style="color: green" class="dropdown-hover" data-hover="dropdown" role="button" aria-expanded="false">Vakinha</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="http://www.game7.com.br/?utm_source=Parceria&utm_medium=CPC&utm_content=Home&utm_campaign=Mixturados" style="color: red" class="dropdown-hover" data-hover="dropdown" role="button" aria-expanded="false">Game7</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right" id="ulLogged">
+                        <li><a href="/notification" id="Notif">Notificação</a></li>
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Opções<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/player/edit">Editar</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" onclick="Exit()">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </header>
+        <div id="cont" class="container" style="width: 100%;">
+            <div style="margin-bottom: 230px; margin-top: 25px;">
+                <img class="navbar-brand" src="~/Images/LogoPrincipal.png" style="height: 220px; padding: 0px; margin-left: 35%;" />
+            </div>
+            <div class="certo">
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- Bloco Topo -->
+                <ins class="adsbygoogle"
+                    style="display: block"
+                    data-ad-client="ca-pub-8858452918865308"
+                    data-ad-slot="8412520073"
+                    data-ad-format="auto"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+
+                @RenderBody()
+
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- Bloco Esquerda -->
+                <ins class="adsbygoogle"
+                    style="display: block"
+                    data-ad-client="ca-pub-8858452918865308"
+                    data-ad-slot="4634905675"
+                    data-ad-format="auto"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+        <footer id="foot" class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div id="spot-im-root"></div>
+                    <script type="text/javascript">!function (t, o, p) { function e() { var t = o.createElement("script"); t.type = "text/javascript", t.async = !0, t.src = ("https:" == o.location.protocol ? "https" : "http") + ":" + p, o.body.appendChild(t) } t.spotId = "73cf9cb1d9eac9a78bb5bd40f7ef16c2", t.spotName = "", t.allowDesktop = !0, t.allowMobile = !1, t.containerId = "spot-im-root", e() }(window.SPOTIM = {}, document, "//v1.spot.im/embed/scripts/launcher.js");</script>
+                    <div class="col-md-4">
+                        <div class="fb-like" data-href="https://www.facebook.com/mixturadoslol" data-layout="standard" show_faces="false" data-action="like" colorscheme="dark" data-share="true"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <ul class="list-inline social-buttons">
+                            <li>
+                                <a href="http://twitter.com/mixturadoslol"><i class="fa fa-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/mixturadoslol"><i class="fa fa-facebook"></i></a>
+                            </li>
+                            <li>
+                                <a href="http://www.twitch.tv/mixturadoslol"><i class="fa fa-twitch"></i></a>
+                            </li>
+                            <li>
+                                <a href="https://www.youtube.com/channel/UCMhzAKhQ_cpBA_DtZIj5l0Q"><i class="fa fa-youtube"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="https://docs.google.com/forms/d/12bz_3v09T3PtE5HhDay8DI44sYWKMPUlFhdl_7r8eq4/viewform" style="color: #f8e700; margin-right: 3px;">Trabalhe Conosco</a>
+                        <a href="/Home/about" style="color: #f8e700; margin-right: 3px;">Sobre</a>
+                        <a href="/Home/support" style="color: #f8e700;">Ajude nos</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/bootstrap")*@
+    @RenderSection("scripts", required: false)
+</body>
+</html>

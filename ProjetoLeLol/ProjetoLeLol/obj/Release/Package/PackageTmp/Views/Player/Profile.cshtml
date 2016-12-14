@@ -1,0 +1,217 @@
+﻿@{
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+@model ProjetoLeLol.ViewModel.PlayerProfileVM
+
+<script>
+    $(document).ready(function () {
+        var panels = $('.user-infos');
+        var panelsButton = $('.dropdown-user');
+        panels.hide();
+
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $('#btnInvite').click(InvitePlayer);
+        $('.btnTeam').click(TeamProfile);
+    });
+
+    function InvitePlayer() {
+        var id = $('#PlayerId').attr('name');
+
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("PlayerCall", "Team")",
+            data: "&id_player=" + id,
+            success: function (result) {
+                if (result)
+                    window.alert("Foi enviado uma notificação ao jogador");
+                else
+                    window.alert("Seu time está cheio ou jogador já possui time");
+            }
+        });
+    }
+
+    function TeamProfile() {
+        var id = $(this).attr('name');
+
+        document.location.href = "/team/profiles?&id_team=" + id;
+    }
+</script>
+
+<style>
+    .user-row {
+        margin-bottom: 14px;
+    }
+
+        .user-row:last-child {
+            margin-bottom: 0;
+        }
+
+    .dropdown-user {
+        margin: 13px 0;
+        padding: 5px;
+        height: 100%;
+    }
+
+        .dropdown-user:hover {
+            cursor: pointer;
+        }
+
+    .table-user-information > tbody > tr {
+        border-top: 1px solid rgb(221, 221, 221);
+    }
+
+        .table-user-information > tbody > tr:first-child {
+            border-top: 0;
+        }
+
+
+        .table-user-information > tbody > tr > td {
+            border-top: 0;
+        }
+
+    .toppad {
+        margin-top: 20px;
+    }
+</style>
+
+<div class="jumbotron">
+    <input type="hidden" id="PlayerId" name="@Model.ProfilePlayer.Id" />
+    <div class="row" style="background: url(/Images/MarcaDAgua-JanelasLaranja.png) no-repeat; background-size: 560px; background-position: 50%;">
+        <div class="panel">
+            <div class="panel-heading" style="color: #0d0d0d;">
+                <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>@Model.ProfilePlayer.Nick</b></h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3 col-lg-3 " align="center">
+                        <img alt="User Pic" src="@Model.ProfilePlayer.Img" height="200" width="200" style="border-style:solid; border-color: #f87e00; border-width: 2px;">
+                        @if (Model.CurrentPlayer.Id == Model.ProfilePlayer.Id)
+                        {
+                            <br />
+                            <br />
+                            <a class="btn btn-primary btn-large" title="Editar" href="/Player/Edit"><i class="fa fa-pencil"></i></a>
+                        }
+                        @if (Model.CurrentPlayer.Id != Model.ProfilePlayer.Id && (Model.CurrentPlayer.IsCaptain || Model.CurrentPlayer.IsSubCaptain))
+                        {
+                            <br />
+                            <br />
+                            <a class="btn btn-primary btn-large" title="Convidar pro time" onclick="InvitePlayer()" href="#"><i class="fa fa-envelope-o"></i></a>
+                        }
+                    </div>
+                    <div class=" col-md-9 col-lg-9 ">
+                        <table class="table table-user-information" style="width: 100%">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label class="label">Nome</label></td>
+                                    <td>
+                                        <label class="label">@Model.ProfilePlayer.Name</label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="label">Data de cadastro</label></td>
+                                    <td>
+                                        <label class="label">@Model.ProfilePlayer.DateCreated.ToString("dd/MM/yyyy")</label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="label">Nascimento</label></td>
+                                    <td>
+                                        <label class="label">@Model.Age</label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="label">Role principal</label></td>
+                                    <td>
+                                        <label class="label">@Model.ProfilePlayer.Role1.ToString()</label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="label">Role secundaria</label></td>
+                                    <td>
+                                        <label class="label">@Model.ProfilePlayer.Role2.ToString()</label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="label">Campeão favorito</label></td>
+                                    <td>
+                                        <label class="label">@Model.ProfilePlayer.Champion.ToString()</label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="label">Estado</label></td>
+                                    <td>
+                                        <label class="label">@Model.ProfilePlayer.State.ToString()</label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="label">Horário de treino</label></td>
+                                    <td>
+                                        <label class="label">@Model.ProfilePlayer.Schedule.ToString()</label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="label">Horário de treino 2</label></td>
+                                    <td>
+                                        <label class="label">@Model.ProfilePlayer.Schedule2.ToString()</label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="label">Horário de treino 2</label></td>
+                                    <td>
+                                        <label class="label">@Model.ProfilePlayer.Schedule2.ToString()</label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="label">Tier</label></td>
+                                    <td>
+                                        <label class="label">@Model.ProfilePlayer.PlayerStatistics.Tier</label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="label">Division</label></td>
+                                    <td>
+                                        <label class="label">@Model.ProfilePlayer.PlayerStatistics.Division</label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="label">Vitórias</label></td>
+                                    <td>
+                                        <label class="label">@Model.ProfilePlayer.PlayerStatistics.Wins</label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="label">Derrotas</label></td>
+                                    <td>
+                                        <label class="label">@Model.ProfilePlayer.PlayerStatistics.Losses</label></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="label">Estatísticas do jogador</label></td>
+                                    <td>
+                                        <label class="label"><a class="btn btn-primary" href="http://www.lolking.net/summoner/br/@Model.ProfilePlayer.IdRiot"><i class="fa fa-eye"></i></a></label>
+                                    </td>
+                                </tr>
+                                @if (Model.PlayerTeam.Id != 0)
+                                {
+                                    <tr>
+                                        <td>
+                                            <label class="label">Time Atual</label></td>
+                                        <td>
+                                            <label class="label">@Model.PlayerTeam.Name</label>
+                                            <button name="@Model.PlayerTeam.Id" title="Perfil" class="btn btn-sm btn-primary btnTeam"><i class="fa fa-eye"></i></button>
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,221 @@
+﻿@{
+    ViewBag.Title = "Show";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+@model ProjetoLeLol.ViewModel.ChampGamesVM
+
+<script>
+    $(document).ready(function () {
+        $('.Games').DataTable();
+        $(".viewTeam").click(TeamProfile);
+        $(".viewMatch").click(GameDetails);
+        $(".endMatch").click(EndMatch);
+        $(".viewCode").click(ViewCode);
+    });
+
+    function ViewCode() {
+        var code = $(this).attr('name');
+
+        $("#txtCode").val(code);
+    }
+
+    function TeamProfile() {
+        var id = $(this).attr('name');
+
+        document.location.href = "/team/profiles?id_team=" + id;
+    }
+
+    function GameDetails() {
+        var id = $(this).attr('name');
+
+        var win = window.open("http://matchhistory.br.leagueoflegends.com/pt/#match-details/BR1/" + id, '_blank');
+        win.focus();
+    }
+
+    function EndMatch() {
+        var id_game = $(this).attr('name');
+
+        var r = window.confirm("Ao pressionar OK você confirma que o SEU time venceu a partida!");
+        if (r == true) {
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("GameEndPlayer", "Championship")",
+                data: "&id_game=" + id_game,
+                success: function (result) {
+                    if (result)
+                        window.alert("Fim de jogo");
+                    else
+                        window.alert("Erro");
+                }
+            });
+        }
+    }
+
+</script>
+
+<script src="bower_components/expandjs/dist/expandjs.min.js"></script>
+<script src="bower_components/lol-tournament-code/dist/lol-tournament-code.min.js"></script>
+
+<div class="jumbotron">
+    @if (Model.Champ.Started)
+    {
+        if (Model.Champ.Ended)
+        {
+        <h2>Campeonato Encerrado</h2>
+        <h2>Campeão: @Model.Champ.Winner.Name</h2>
+        <h2>Vice: @Model.Champ.SecondPlace.Name</h2>
+        <h2>Terceiro: @Model.Champ.ThirdPlace.Name</h2>
+        <h2>Quarto: @Model.Champ.FourthPlace.Name</h2>
+        }
+
+        for (int i = 0; i < Model.Games.Count; i++)
+        {
+            if (Model.Games[i].Count() != 0)
+            {
+                <h2>Rodada @(i + 1)</h2>
+                <table class="Games table table-bordered" style="color: black; background-color: white">
+                    <thead>
+                        <tr>
+                            <th>Id Partida</th>
+                            <th>Time 1</th>
+                            <th>Time 2</th>
+                            <th>Data</th>
+                            <th>Resultado</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var g in Model.Games[i])
+                        {
+                            <tr>
+                                <td>@g.Id.ToString()</td>
+                                @if (g.Winner.Id != 38)
+                                {
+                                    if (g.Team1.Id == g.Winner.Id)
+                                    {
+                                    <td style="background-color: #C6E0B4;">@g.Team1.Name - @g.Team1.Tag</td>
+                                    <td style="background-color: #FFB3B3;">@g.Team2.Name - @g.Team2.Tag</td>
+                                    }
+                                    else
+                                    {
+                                    <td style="background-color: #FFB3B3;">@g.Team1.Name - @g.Team1.Tag</td>
+                                    <td style="background-color: #C6E0B4;">@g.Team2.Name - @g.Team2.Tag</td>
+                                    }
+                                    <td>@g.Date.ToString("dd/MM/yyyy")</td>
+                                    <td>@g.Winner.Name - @g.Winner.Tag</td>     
+                                    <td>
+                                        <button class="btn btn-primary btn-large viewMatch" name="@g.IdMatch" title="Visualizar"><i class="fa fa-eye"></i></button>
+                                    </td>                       
+                                }
+                                else
+                                {
+                                    <td>@g.Team1.Name - @g.Team1.Tag</td>
+                                    <td>@g.Team2.Name - @g.Team2.Tag</td>
+                                    <td>@g.Date.ToString("dd/MM/yyyy")</td>
+                                    <td>Em andamento</td>
+                                    if (Model.CurrentPlayer.Id == g.Team1.Captain.Id || Model.CurrentPlayer.Id == g.Team2.Captain.Id)
+                                    {
+                                        <td>
+                                            <input style="width: 50%" id="txtCode" type="text" value="@g.TCode" />
+                                            <!--<button class="btn btn-primary btn-large viewCode" name="@g.TCode" title="Vizualizar o Código">Código da Partida</button>-->
+                                            <button class="btn btn-success btn-large endMatch" name="@g.Id" title="Me declarar vencedor!">MEU TIME VENCEU</button>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>---</td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        }                      
+    }
+    else
+    {
+        <div class="row" style="background: url(/Images/MarcaDAgua-JanelasLaranja.png) no-repeat; background-size: 560px; background-position: 50%; border: 0;">
+            <div class="panel">
+                <div class="panel-heading" style="background-color: #f87e00; color: #0d0d0d;">
+                    <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>Times Inscritos</b></h3>
+                </div>
+                <div class="panel-body">
+                    <table class="Games table table-bordered" style="color: black; background-color: white">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Tag</th>
+                                <th>Capitão</th>
+                                <th>Visualizar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var t in Model.Teams)
+                            {
+                                <tr>
+                                    <td>@t.Name</td>
+                                    <td>@t.Tag</td>
+                                    <td>@t.Captain.Nick</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-large viewTeam" name="@t.Id" title="Visualizar"><i class="fa fa-eye"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br />
+                            if (Model.Champ.Type == ProjetoLeLol.Models.ChampionshipType.Pago)
+                            {        
+        <div>
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- Bloco Interno -->
+            <ins class="adsbygoogle"
+                style="display: block"
+                data-ad-client="ca-pub-8858452918865308"
+                data-ad-slot="6115724873"
+                data-ad-format="auto"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+        <br />
+        <div class="row" style="background: url(/Images/MarcaDAgua-JanelasLaranja.png) no-repeat; background-size: 560px; background-position: 50%; border: 0;">
+            <div class="panel">
+                <div class="panel-heading" style="background-color: #f87e00; color: #0d0d0d;">
+                    <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>Times Pendentes</b></h3>
+                </div>
+                <div class="panel-body">
+                    <table class="Games table table-bordered" style="color: black; background-color: white">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Tag</th>
+                                <th>Capitão</th>
+                                <th>Visualizar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var t in Model.TempTeams)
+                            {
+                                <tr>
+                                    <td>@t.Name</td>
+                                    <td>@t.Tag</td>
+                                    <td>@t.Captain.Nick</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-large viewTeam" name="@t.Id" title="Visualizar"><i class="fa fa-eye"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+                            }
+    }
+</div>

@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "View1";
+}
+
+<style>
+    label {
+        color: white;
+    }
+</style>
+
+<script src="~/Scripts/lol-tournament-code.js"></script>
+<script src="~/Scripts/lolcode-functions.js"></script>
+
+<script>
+    var tournmentCode;
+
+    function CreateCode() {
+        opt = {
+            name: 'TournamentGame'
+        }
+
+        tournmentCode(opt)
+        // => "pvpnet://lol/customgame/joinorcreate/map11/pick6/team5/specDROPINONLY/eyJuYW1lIjoiVG91cm5hbW5ldEdhbWUiLCJleHRyYSI6IiJ9" 
+
+        opt = {
+            name: '3v3Tournament',
+            password: 'qweasdzxc',
+            map: 10,
+            type: 6,
+            size: 3,
+            spectators: 'DROPINONLY',
+            reportURL: 'https://example.com/game-reports',
+            extra: 'This was an awesome tournmanet'
+        }
+
+        var result = tournmentCode(opt);
+
+        $("#txtCode").val(result);
+    }
+
+    function GetResult() {
+        var tournamentCode = require('lol-tournament-code');
+
+        tournamentCode({ name: 'TournamentGame' });
+
+        var result = LoL.tournamentCode({ name: 'TournamentGame' });
+        // => "pvpnet://lol/customgame/joinorcreate/map11/pick6/team5/specDROPINONLY/eyJuYW1lIjoiVG91cm5hbW5ldEdhbWUiLCJleHRyYSI6IiJ9" 
+
+        $("#btnResult").val(result);
+    }
+</script>
+
+<h2>View1</h2>
+<br />
+<label id="txtCode">---</label>
+<br />
+<label id="txtResult">---</label>
+<br />
+<button id="btnGenerate" onclick="CreateCode();">Gerar Código</button>
+<br />
+<button id="btnGetResult" onclick="GetResult();">Pegar Resultado</button>

@@ -1,0 +1,274 @@
+﻿@{
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+@model ProjetoLeLol.ViewModel.PlayerEditVM
+
+<script>
+    $(document).ready(function () {
+        $("#btnGo").click(Verify);
+
+        $('#txtDate').mask('00/00/0000', { placeholder: "__/__/____" });
+
+        var panels = $('.user-infos');
+        var panelsButton = $('.dropdown-user');
+        panels.hide();
+
+        //Click dropdown
+        panelsButton.click(function () {
+            //get data-for attribute
+            var dataFor = $(this).attr('data-for');
+            var idFor = $(dataFor);
+
+            //current button
+            var currentButton = $(this);
+            idFor.slideToggle(400, function () {
+                //Completed slidetoggle
+                if (idFor.is(':visible')) {
+                    currentButton.html('<i class="glyphicon glyphicon-chevron-up text-muted"></i>');
+                }
+                else {
+                    currentButton.html('<i class="glyphicon glyphicon-chevron-down text-muted"></i>');
+                }
+            })
+        });
+
+
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    function Verify() {
+        var name = $("#txtName").val();
+        var birthday = $("#txtDate").val();
+        var skype = $("#txtSkype").val();
+        var role1 = $("#selRole1").val();
+        var role2 = $("#selRole2").val();
+        var champ = $("#selChamp").val();
+        var state = $("#selState").val();
+        var schedule = $("#selSchedule").val();
+        var schedule2 = $("#selSchedule2").val();
+        var img = $("#txtImg").val();
+
+        if (CheckFields()) {
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("EditPlayer", "Player")",
+                data: "&name=" + name +
+                       "&birthday=" + birthday +
+                       "&skype=" + skype +
+                       "&role1=" + role1 +
+                       "&role2=" + role2 +
+                       "&state=" + state +
+                       "&schedule=" + schedule +
+                       "&schedule2=" + schedule2 +
+                       "&champ=" + champ +
+                       "&img=" + img,
+                success: function (result) {
+                    if (result)
+                        window.alert("Editado com sucesso");
+                    else
+                        window.alert("Erro");
+                }
+            });
+        }
+    }
+
+    function CheckFields() {
+        var name = $("#txtName").val();
+        var date = $("#txtDate").val();
+
+        if (name == "" || name == null) {
+            $("#txtName").css("background-color", "Red");
+            return false;
+        }
+        if (date == "" || date == null) {
+            $("#txtdate").css("background-color", "Red");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+<style>
+    .user-row {
+        margin-bottom: 14px;
+    }
+
+        .user-row:last-child {
+            margin-bottom: 0;
+        }
+
+    .dropdown-user {
+        margin: 13px 0;
+        padding: 5px;
+        height: 100%;
+    }
+
+        .dropdown-user:hover {
+            cursor: pointer;
+        }
+
+    .table-user-information > tbody > tr {
+        border-top: 1px solid rgb(221, 221, 221);
+    }
+
+        .table-user-information > tbody > tr:first-child {
+            border-top: 0;
+        }
+
+
+        .table-user-information > tbody > tr > td {
+            border-top: 0;
+        }
+
+    .toppad {
+        margin-top: 20px;
+    }
+</style>
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="panel" style="background-color: rgba(255,255,255,0.10); background: url(/Images/MarcaDAgua-JanelasLaranja.png) no-repeat; background-size: 520px; background-position: 50%;">
+            <div class="panel-heading" style="background-color: #f87e00; color: #0d0d0d;">
+                <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>@Model.CurrentPlayer.Name</b></h3>
+            </div>
+            <div class="row">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 " align="center">
+                            <img alt="User Pic" src="@Model.CurrentPlayer.Img" height="200" width="200" style="border-style:solid; border-color: #f87e00; border-width: 2px;">
+                        </div>
+                        <div class=" col-md-9 col-lg-9 ">
+                            <div class="divCentral">
+                                <div class="divFields">
+                                    <label class="label">Nome</label>
+                                    <input class="txtFields" type="text" id="txtName" value="@Model.CurrentPlayer.Name"/>
+                                </div>
+                                <div class="divFields">
+                                    <label class="label">Data de Nascimento</label>
+                                    <input class="txtFields" type="text" id="txtDate" value="@Model.CurrentPlayer.Birthday.ToString("dd/MM/yyyy")"/>
+                                </div>
+                                <div class="divFields">
+                                    <label class="label">Skype</label>
+                                    <input class="txtFields" type="text" id="txtSkype" value="@Model.CurrentPlayer.Skype"/>
+                                </div>
+                                <div class="divFields">
+                                    <label class="label">Link da Imagem</label>
+                                    @if (Model.CurrentPlayer.Img == "/Images/porosemfundo.png")
+                                    {
+                                        <input class="txtFields" type="text" id="txtImg" value="" />
+                                    }
+                                    else
+                                    {
+                                        <input class="txtFields" type="text" id="txtImg" value="@Model.CurrentPlayer.Img"/>
+                                    }
+                                </div>
+                                <div class="divFields">
+                                    <label class="label">Main Role</label>
+                                    <select id="selRole1" class="selectpicker" style="width: 70%">
+                                        @foreach (ProjetoLeLol.Models.Roles r in Model.Roles)
+                                        {
+                                            if (Model.CurrentPlayer.Role1 == r)
+                                            {
+                                            <option selected="selected">@r</option>
+                                            }
+                                            else
+                                            {
+                                            <option>@r</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="divFields">
+                                    <label class="label">Second Role</label>
+                                    <select id="selRole2" class="selectpicker" style="width: 70%">
+                                        @foreach (ProjetoLeLol.Models.Roles r in Model.Roles)
+                                        {
+                                            if (Model.CurrentPlayer.Role2 == r)
+                                            {
+                                            <option selected="selected">@r</option>
+                                            }
+                                            else
+                                            {
+                                            <option>@r</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="divFields">
+                                    <label class="label">Campeão Favorito</label>
+                                    <select id="selChamp" class="selectpicker" style="width: 70%">
+                                        @foreach (ProjetoLeLol.Models.Champions r in Model.Champions)
+                                        {
+                                            if (Model.CurrentPlayer.Champion == r)
+                                            {
+                                            <option selected="selected">@r</option>
+                                            }
+                                            else
+                                            {
+                                            <option>@r</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="divFields">
+                                    <label class="label">Estado</label>
+                                    <select id="selState" class="selectpicker" style="width: 70%">
+                                        @foreach (ProjetoLeLol.Models.States r in Model.States)
+                                        {
+                                            if (Model.CurrentPlayer.State == r)
+                                            {
+                                            <option selected="selected">@r</option>
+                                            }
+                                            else
+                                            {
+                                            <option>@r</option>
+                                            }
+                                        }
+                                    </select>
+                                    <div class="divFields">
+                                        <label class="label">Horário de treino</label>
+                                        <select id="selSchedule" class="selectpicker" style="width: 70%">
+                                            @foreach (ProjetoLeLol.Models.Schedule r in Model.Schedules)
+                                            {
+                                                if (Model.CurrentPlayer.Schedule == r)
+                                                {
+                                                <option selected="selected">@r</option>
+                                                }
+                                                else
+                                                {
+                                                <option>@r</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="divFields">
+                                        <label class="label">Horário de treino 2</label>
+                                        <select id="selSchedule2" class="selectpicker" style="width: 70%">
+                                            @foreach (ProjetoLeLol.Models.Schedule r in Model.Schedules)
+                                            {
+                                                if (Model.CurrentPlayer.Schedule == r)
+                                                {
+                                                <option selected="selected">@r</option>
+                                                }
+                                                else
+                                                {
+                                                <option>@r</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="divFields">
+                                    <input type="button" id="btnGo" class="btn btn-primary btn-large" value="Salvar" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

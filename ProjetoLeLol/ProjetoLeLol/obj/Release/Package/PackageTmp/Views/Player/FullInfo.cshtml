@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "FullInfo";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+@model ProjetoLeLol.ViewModel.FullInfoPlayerVM
+
+@*<div class="jumbotron">*@
+
+    @* Main Info*@
+    <div class="grid-item six">
+        <div class="plain opaque box twelve">
+            <section>
+                <header>
+                    <h4 class="blue type news-icon-present">
+                        <span class="news-label-text">Informações Gerais</span>
+                    </h4>
+                </header>
+                <img src="@Model.ProfilePic" >
+                <article>
+                        <p>Level <b>@Model.Level</b></p>
+                        <p>Elo <b>@Model.Tier</b></p>
+                </article>
+            </section>
+        </div>
+    </div>
+
+    @* Ranked Stats *@
+    <div class="grid-item six">
+        <div class="plain opaque box twelve">
+            <section>
+                <header>
+                    <h4 class="blue type news-icon-present">
+                        <span class="news-label-text">Status Ranked SoloQ</span>
+                    </h4>
+
+                </header>
+
+                        <img src="@Model.TierPic" >
+                <article>
+                        <p><b>@Model.Tier @Model.Division</b></p>
+                        <p><b style="color: #6c0;">@Model.WinsRanked</b> Vitórias</p>
+                        <p><b style="color: #d20;">@Model.LossRanked</b> Derrotas</p>
+                        <p>Campeões Inimigos Derrotados <b>@Model.TotalChampionKills</b></p>
+                        <p>Minions Abatidos <b>@Model.TotalMinionKills</b></p>
+                </article>
+            </section>
+        </div>
+    </div>
+
+    @* Champions *@
+    <div class="grid-item twelve">
+        <div class="plain opaque box twelve">
+            <section>
+                <header>
+                    <h4 class="blue type news-icon-present">
+                        <span class="news-label-text">Campeões mais jogados</span>
+                    </h4>
+
+                </header>
+
+                        <img src="@Model.TierPic" >
+                <article>
+                        <p><b>@Model.Tier @Model.Division</b></p>
+                        <p><b style="color: #6c0;">@Model.WinsRanked</b> Vitórias</p>
+                        <p><b style="color: #d20;">@Model.LossRanked</b> Derrotas</p>
+                </article>
+            </section>
+        </div>
+    </div>
+
+  @*  <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-xs-10">
+                <div class="well panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="columns three logo">
+                                <img src="@Model.ProfilePic" alt="" class="center-block img-circle img-thumbnail img-responsive">
+                                <h2>@Model.Name</h2>
+                                <p><strong>Level: </strong>@Model.Level </p>
+                                <p><strong>Tier: </strong>@Model.Tier </p>
+                                <p><strong>Division: </strong>@Model.Division </p>
+                                <p>
+                                    <img src="@Model.TierPic" alt="" class="center-block img-circle img-thumbnail img-responsive"></p>
+                            </div>
+                            <!--/col-->
+                            <div class="columns three logo">
+                                <h2><strong>@Model.WinsRanked </strong></h2>
+                                <p><small>Vitórias Ranked</small></p>
+                                <button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span>Follow </button>
+
+                                <h2><strong>@Model.LossRanked</strong></h2>
+                                <p><small>Derrotas Ranked</small></p>
+                                <button class="btn btn-info btn-block"><span class="fa fa-user"></span>View Profile </button>
+
+                                <h2><strong>@Model.LeaguePoints</strong></h2>
+                                <p><small>Pontos de Liga</small></p>
+                                <button type="button" class="btn btn-primary btn-block"><span class="fa fa-gear"></span>Options </button>
+                            </div>
+                            <!--/col-->
+                        </div>
+                        <!--/row-->
+                    </div>
+                    <!--/panel-body-->
+                </div>
+                <!--/panel-->
+            </div>
+            <!--/col-->
+        </div>
+        <!--/row-->
+    </div>
+    <!--/container-->
+
+</div>*@

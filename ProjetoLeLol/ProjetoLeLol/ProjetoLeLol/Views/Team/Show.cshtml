@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Show";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+@model IEnumerable<ProjetoLeLol.Models.Team>
+
+<script>
+    $(document).ready(function () {
+        $(".btn").click(TeamProfile);
+        $('#tblTeams').DataTable();
+    });
+
+    function TeamProfile() {
+        var id = $(this).attr('name');
+
+        var win = window.open("/team/profiles?id_team=" + id, '_blank');
+        win.focus();
+    }
+</script>
+
+<div class="jumbotron" style="color: #939393;">
+    <div class="row" style="background: url(/Images/MarcaDAgua-JanelasLaranja.png) no-repeat; background-size: 560px; background-position: 50%; border: 0;">
+        <div class="panel">
+            <div class="panel-heading" style="color: #0d0d0d;">
+                <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>Lista de Times</b></h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered" id="tblTeams">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Tag</th>
+                            <th>Criada em</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var t in Model)
+                        {
+                            <tr>
+                                <td>@t.Name</td>
+                                <td>@t.Tag</td>
+                                <td>@t.DateCreated.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    <button class="btn btn-primary btn-large" name="@t.Id" title="Visualizar"><i class="fa fa-eye"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

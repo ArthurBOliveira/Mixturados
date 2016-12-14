@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "ListStream";
+    Layout = "~/Views/Shared/_Master2.cshtml";
+}
+
+<div class="jumbotron" style="color: #939393;">
+    <div class="row" style="background: url(/Images/MarcaDAgua-JanelasLaranja.png) no-repeat; background-size: 560px; background-position: 50%; border: 0;">
+        <div class="panel" >
+            <div class="panel-heading" style="background-color: #f87e00; color: #0d0d0d;">
+                <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>Lista de Jogadores Stream</b></h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered" id="tblPlayer" style="background-color: white; color: #939393;">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Nick</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var p in Model)
+                        {
+                            <tr>
+                                <td>@p.Name</td>
+                                <td>@p.Nick</td>
+                                <td></td>
+                                <td>
+                                    <button class="btn btn-primary btn-large" name="@p.Id" title="Visualizar"><i class="fa fa-eye"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

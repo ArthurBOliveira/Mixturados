@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "csgo";
+}
+
+@model ProjetoLeLol.Models.Player
+
+<div class="jumbotron">
+    <h2>Campeonato de Counter Strike - Global Offensive</h2>
+    <br />    
+    <div>
+        @if(Model.Id != 0)
+        {
+            <iframe src="http://battlefy.com/embeds/join/55a5819523a38f4300f9553f?locale=pt_BR" title="camp x1 mix" width="186" height="80" scrolling="no" frameborder="0"></iframe>
+        }
+        else
+        {
+            <p>Você precisa estar logado para se inscrever no campeonato</p>
+        }
+    </div>
+    <br />
+    <div>
+        <iframe src="http://battlefy.com/embeds/teams/55a5819523a38f4300f9553f?locale=pt_BR" title="Jogadores no Torneio Battlefy" width="100%" height="500" scrolling="yes" frameborder="0">
+    </div>
+</div>

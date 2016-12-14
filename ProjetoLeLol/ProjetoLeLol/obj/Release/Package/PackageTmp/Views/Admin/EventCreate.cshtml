@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "EventCreate";
+    Layout = "~/Views/Shared/_MasterAdmin.cshtml";
+}
+
+
+<script>
+    $(document).ready(function () {
+        $('#txtDate').mask('00/00/0000', { placeholder: "__/__/____-__:__" });
+        $("#btnGo").click(EventCreate);
+    });
+
+    function EventCreate() {
+        var name = $("#txtName").val();
+        var adress = $("#txtAdress").val();
+        var date = $("#txtDate").val();
+        var link = $("#txtLink").val();
+
+        $.ajax({
+            type: 'POST',
+            url: "/admin/eventCreate",
+                data: "&name=" + name +
+                       "&adress=" + adress +
+                       "&date=" + date +
+                       "&link=" + link,
+                success: function (result) {
+                    if (result)
+                        window.alert("Criado com sucesso");
+                    else
+                        window.alert("Erro");
+                }
+        });
+    }
+</script>
+
+
+<div class="jumbotron">
+    <input type="hidden" id="hdnErr" value="@Model.Err.MsgError" class="@Model.Err.HasError.ToString()"/>
+    <h2>Cadastro de Times</h2>
+    <br />
+    <div class="divCentral">
+        <form action="/team/NewTeam" method="POST">
+            <div class="divFields">
+                <label class="label">Nome</label>
+                <input class="txtFields" type="text" id="txtName" name="txtName" />
+            </div>
+            <div class="divFields">
+                <label class="label">Tag</label>
+                <input class="txtFields" type="text" id="txtAdress" name="txtAdress" />
+            </div>
+            <div class="divFields">
+                <label class="label">Data de Nascimento</label>
+                <input class="txtFields" type="text" id="txtDate" name="txtDate" style="width: 60%" />
+            </div>
+            <div class="divFields">
+                <label class="label">Link</label>
+                <input class="txtFields" type="text" id="txtLink" name="txtLink" />
+            </div>
+            <div class="divBtn">
+                <input type="button" id="btnGo" value="Criar evento" class="btn btn-primary btn-large" />
+            </div>
+        </form>
+    </div>
+</div>
+

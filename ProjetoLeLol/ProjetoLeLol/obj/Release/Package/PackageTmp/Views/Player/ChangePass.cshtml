@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "ForgetPass";
+    Layout = "~/Views/Shared/_Master2.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $("#btnGo").click(Verify);
+    });
+
+    function Verify() {
+        var oldPass = $("#txtOldPassword").val();
+        var newPass = $("#txtNewPassword").val();
+        var conf = $("#txtConf").val();
+
+        if (newPass == conf) {
+            if (CheckFields()) {
+                $.ajax({
+                    type: 'POST',
+                    url: "@Url.Action("ForgetPassword", "Player")",
+                    data: "&oldPass=" + oldPass +
+                           "&newPass=" + newPass,
+                    success: function (result) {
+                        if (result)
+                            window.alert("Senha alterada com sucesso!");
+                        else
+                            window.alert("Senha atual não confere!");
+                    }
+                });
+            }
+            else {
+                window.alert("Por favor verifique os campos.");
+            }
+        }
+        else {
+            window.alert("As senhas não conferem.");
+        }
+    }
+
+    function CheckFields() {
+        var result = true;
+        var oldPass = $("#txtOldPassword").val();
+        var newPass = $("#txtNewPassword").val();
+        var conf = $("#txtConf").val();
+
+        if (oldPass == "" || oldPass == null) {
+            $("#txtOldPassword").css("background-color", "Red");
+            result = false;
+        }
+        if (newPass == "" || newPass == null) {
+            $("#txtNewPassword").css("background-color", "Red");
+            result = false;
+        }
+        if (conf == "" || conf == null) {
+            $("#txtConf").css("background-color", "Red");
+            result = false;
+        }
+        var aux = newPass.indexOf(':')
+        if (aux != -1) {
+            window.alert("Proibido colocar ':' na sua senha");
+            $("#txtNewPassword").val("");
+            $("#txtConf").val("");
+        }
+
+        return result;
+    }
+</script>
+
+<div class="jumbotron">
+    <div class="row" style="background: url(/Images/MarcaDAgua-JanelasLaranja.png) no-repeat; background-size: 300px; background-position: 50%; border: 0;">
+        <div class="panel" style="background-color: rgba(255,255,255,0.10);">
+            <div class="panel-heading" style="background-color: #f87e00; color: #0d0d0d;">
+                <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>Alterar Senha</b></h3>
+            </div>
+            <div class="panel-body">
+                <div class="divCentral">
+                    <div class="divFields">
+                        <label class="label">Senha Atual</label>
+                        <input class="txtFields" type="password" id="txtOldPassword" style="width: 70%" />
+                    </div>
+                    <div class="divFields">
+                        <label class="label">Senha Nova</label>
+                        <input class="txtFields" type="password" id="txtNewPassword" style="width: 70%" />
+                    </div>
+                    <div class="divFields">
+                        <label class="label">Confirmar Senha Nova</label>
+                        <input class="txtFields" type="password" id="txtConf" style="width: 70%" />
+                    </div>
+                    <div class="divFields">
+                        <div style="margin-left: 47%;" class="g-recaptcha" data-sitekey="6Lf7tAQTAAAAAGXA4F2xWIY8YG8lJJTzTkTWY7C2"></div>
+                    </div>
+                    <div class="divBtn">
+                        <input id="btnGo" type="button" class="btn btn-primary btn-large" value="Salvar" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

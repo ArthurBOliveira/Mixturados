@@ -1,0 +1,1 @@
+(function(a){a(document).on("submitted","#pass-reset-form",function(c,b){b&&a("#pass-reset").modal("show")});a(document).on("closed","#pass-reset",function(){document.location.href="/"})})(window.jQuery);

@@ -1,0 +1,222 @@
+﻿@{
+    ViewBag.Title = "PlayerCreate";
+    Layout = "~/Views/Shared/_Master3.cshtml";
+}
+
+@model ProjetoLeLol.ViewModel.PlayerVM
+
+<script>
+    $(document).ready(function () {
+        //$("#btnGo").click(Verify);
+        $("#txtPassword").blur(CheckPassword);
+
+        CheckError();
+
+        $('#txtDate').mask('00/00/0000', { placeholder: "__/__/____" });
+
+        var panels = $('.user-infos');
+        var panelsButton = $('.dropdown-user');
+        panels.hide();
+
+        //Click dropdown
+        panelsButton.click(function () {
+            //get data-for attribute
+            var dataFor = $(this).attr('data-for');
+            var idFor = $(dataFor);
+
+            //current button
+            var currentButton = $(this);
+            idFor.slideToggle(400, function () {
+                //Completed slidetoggle
+                if (idFor.is(':visible')) {
+                    currentButton.html('<i class="glyphicon glyphicon-chevron-up text-muted"></i>');
+                }
+                else {
+                    currentButton.html('<i class="glyphicon glyphicon-chevron-down text-muted"></i>');
+                }
+            })
+        });
+    });
+
+    function CheckError() {
+        var hasError = document.getElementById("hdnErr").className;
+        var errMsg = $("#hdnErr").val();
+
+        if (hasError == "True")
+            window.alert(errMsg);
+    }
+
+    function CheckPassword() {
+        var password = $("#txtPassword").val();
+
+        var result = password.match("^(?=.*?[a-z])(?=.*?[0-9]).{8,12}$");
+
+        if (!result) {
+            window.alert("A senha precisa conter no mínimo 8 a 12 caracteres e 1 número.");
+            $("#txtPassword").val("");
+            $("#txtConf").val("");
+        }
+    }
+</script>
+
+<style>
+    .user-row {
+        margin-bottom: 14px;
+    }
+
+        .user-row:last-child {
+            margin-bottom: 0;
+        }
+
+    .dropdown-user {
+        margin: 13px 0;
+        padding: 5px;
+        height: 100%;
+    }
+
+        .dropdown-user:hover {
+            cursor: pointer;
+        }
+
+    .table-user-information > tbody > tr {
+        border-top: 1px solid rgb(221, 221, 221);
+    }
+
+        .table-user-information > tbody > tr:first-child {
+            border-top: 0;
+        }
+
+
+        .table-user-information > tbody > tr > td {
+            border-top: 0;
+        }
+
+    .toppad {
+        margin-top: 20px;
+    }
+</style>
+
+<div class="jumbotron" style="float: left">
+    <input type="hidden" id="hdnErr" value="@Model.errorView.MsgError" class="@Model.errorView.HasError.ToString()"/>
+    <div style="width: 45%; float: left; color: #939393; margin-right: 5%; background: url(/Images/MarcaDAgua-JanelasLaranja.png) no-repeat; background-size: contain; background-position-x: 50%;">
+        <h2>Leia com atenção!</h2>
+        <p>
+            Antes de se cadastrar você precisa possuir uma conta level <b>30</b> e 16 campeões no servidor <b>BR</b> para poder participar dos campeonatos.
+            Se a sua conta não possuir 16 e não for level 30, você não será capaz de participar dos nossos campeonatos.
+        </p>
+        <div>
+            <iframe width="530" height="315" src="https://www.youtube.com/embed/7LhlXJcnG-I" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+    <div style="width: 50%; float: left;">
+        <div class="row">
+            <div class="panel" style="background-color: rgba(255,255,255,0.10);">
+                <div class="panel-heading" style="background-color: #f87e00; color: #0d0d0d;">
+                    <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>Cadastre-se</b></h3>
+                </div>
+                <div class="row">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="divCentral">
+                                <form action="/player/newplayer" method="POST">
+                                    <div class="divFields">
+                                        <label class="label">Nome*</label>
+                                        <input class="txtFields" type="text" name="txtName" style="width: 60%" />
+                                    </div>
+                                    <div class="divFields">
+                                        <label class="label">Nick de Invocador*</label>
+                                        <input class="txtFields" type="text" name="txtNick" style="width: 60%" />
+                                    </div>
+                                    <div class="divFields">
+                                        <label class="label">Email*</label>
+                                        <input class="txtFields" type="text" name="txtEmail" style="width: 60%" />
+                                    </div>
+                                    <div class="divFields">
+                                        <label class="label">Senha*</label>
+                                        <input class="txtFields" type="password" id="txtPassword" name="txtPassword" style="width: 60%" />
+                                    </div>
+                                    <div class="divFields">
+                                        <label class="label">Confirmar Senha*</label>
+                                        <input class="txtFields" type="password" name="txtConf" style="width: 60%" />
+                                    </div>
+                                    <div class="divFields">
+                                        <label class="label">Data de Nascimento*</label>
+                                        <input class="txtFields" type="text" id="txtDate" name="txtDate" style="width: 60%" />
+                                    </div>
+                                    <div class="divFields">
+                                        <label class="label">Skype*</label>
+                                        <input class="txtFields" type="text" name="txtSkype" style="width: 60%" />
+                                    </div>
+                                    <div class="divFields">
+                                        <label class="label">Link da Imagem</label>
+                                        <input class="txtFields" type="text" name="txtImg" style="width: 60%" />
+                                    </div>
+                                    <div class="divFields">
+                                        <label class="label">Main Role</label>
+                                        <select name="selRole1" class="selectpicker" style="width: 60%">
+                                            @foreach (ProjetoLeLol.Models.Roles r in Model.Roles)
+                                            {
+                                                <option>@r</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="divFields">
+                                        <label class="label">Second Role</label>
+                                        <select name="selRole2" class="selectpicker" style="width: 60%">
+                                            @foreach (ProjetoLeLol.Models.Roles r in Model.Roles)
+                                            {
+                                                <option>@r</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="divFields">
+                                        <label class="label">Campeão Favorito</label>
+                                        <select name="selChamp" class="selectpicker" style="width: 60%">
+                                            @foreach (ProjetoLeLol.Models.Champions r in Model.Champions)
+                                            {
+                                                <option>@r</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="divFields">
+                                        <label class="label">Estado</label>
+                                        <select name="selState" class="selectpicker" style="width: 60%">
+                                            @foreach (ProjetoLeLol.Models.States r in Model.States)
+                                            {
+                                                <option>@r</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="divFields">
+                                        <label class="label">Horário de treino</label>
+                                        <select name="selSchedule" class="selectpicker" style="width: 60%">
+                                            @foreach (ProjetoLeLol.Models.Schedule r in Model.Schedules)
+                                            {
+                                                <option>@r</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="divFields">
+                                        <label class="label">Horário de treino 2</label>
+                                        <select name="selSchedule2" class="selectpicker" style="width: 60%">
+                                            @foreach (ProjetoLeLol.Models.Schedule r in Model.Schedules)
+                                            {
+                                                <option>@r</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="divFields" style="margin-left:34%;">
+                                        <div class="g-recaptcha" data-sitekey="6Lf7tAQTAAAAAGXA4F2xWIY8YG8lJJTzTkTWY7C2"></div>
+                                    </div>
+                                    <div class="divBtn">
+                                        <input id="btnGo" type="submit" class="btn btn-primary btn-large" value="Confirmar" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

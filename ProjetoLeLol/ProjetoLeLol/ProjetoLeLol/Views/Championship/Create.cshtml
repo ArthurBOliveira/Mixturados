@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MasterAdmin.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $("#btnGo").click(Verify);
+    });
+
+    function Verify() {
+        var games = $("#txtGames").val();
+        var date = $("#txtDate").val();
+        var prize = $("#txtPrize").val();
+        var actual = $("#chkActual").val();
+        var title = $("#txtTitle").val();
+        var rounds = $("#txtRounds").val();
+        var entry = $("#txtEntry").val();
+        var link = $("#txtLink").val();
+        var type = $("#txtType").val();
+
+        if (CheckFields()) {
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("CreateChamp", "Championship")",
+                data: "&games=" + games +
+                       "&date=" + date +
+                       "&prize=" + prize +
+                       "&actual=" + actual +
+                       "&title=" + title +
+                       "&rounds=" + rounds +
+                        "&entry=" + entry +
+                        "&link=" + link +
+                        "&type=" + type,
+                success: function (result) {
+                    if (result)
+                        window.alert("Campeonato cadastrado com sucesso");
+                    else
+                        window.alert("Error");
+                }
+            });
+        }
+        else {
+            window.alert("Verifique os campos.");
+        }
+    }
+
+    function CheckFields() {
+        var games = $("#txtGames").val();
+        var date = $("#txtDate").val();
+        var prize = $("#txtPrize").val();
+        var title = $("#txtTitle").val();
+        var rounds = $("#txtRounds").val();
+
+        if (games == "" || games == null) {
+            $("#txtGame").css("background-color", "Red");
+            return false;
+        }
+        if (date == "" || date == null) {
+            $("#txtDate").css("background-color", "Red");
+            return false;
+        }
+        if (prize == "" || prize == null) {
+            $("#txtDate").css("background-color", "Red");
+            return false;
+        }
+        if (title == "" || title == null) {
+            $("#txtTitle").css("background-color", "Red");
+            return false;
+        }
+        if (rounds == "" || rounds == null) {
+            $("#txtRounds").css("background-color", "Red");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+<div class="jumbotron">
+    <h2>Criar Campeonato</h2>
+    <div class="divCentral">
+        <div class="divFields">
+            <label class="label">Número de jogos</label>
+            <input class="txtFields" type="text" id="txtGames" />
+        </div>
+        <div class="divFields">
+            <label class="label">Data de inicio</label>
+            <input class="txtFields" type="text" id="txtDate" />
+        </div>
+        <div class="divFields">
+            <label class="label">Prêmio</label>
+            <input class="txtFields" type="text" id="txtPrize" />
+        </div>
+        <div class="divFields">
+            <label class="label">Atual</label>
+            <input class="txtFields" type="checkbox" id="chkActual" />
+        </div>
+        <div class="divFields">
+            <label class="label">Título</label>
+            <input class="txtFields" type="text" id="txtTitle" />
+        </div>
+        <div class="divFields">
+            <label class="label">Numero de Rounds</label>
+            <input class="txtFields" type="text" id="txtRounds" />
+        </div>
+        <div class="divFields">
+            <label class="label">Entrada</label>
+            <input class="txtFields" type="text" id="txtEntry" />
+        </div>
+        <div class="divFields">
+            <label class="label">Link para as regras</label>
+            <input class="txtFields" type="text" id="txtLink" />
+        </div>
+        <div class="divFields">
+            <label class="label">Tipo</label>
+            <input class="txtFields" type="text" id="txtType" />
+        </div>
+        <div class="divBtn">
+            <input id="btnGo" type="button" class="btn btn-primary btn-large" value="Criar" />
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,15 @@
+﻿@{
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+@model ProjetoLeLol.Models.News
+
+<div class="jumbotron" style="color: white;">
+    <div id="htmlNews">
+        @Html.Raw(Model.Content)
+    </div>
+
+    <br />
+
+    <label>@Model.Date - @Model.Author</label>
+</div>

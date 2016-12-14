@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "ShowAdmin";
+    Layout = "~/Views/Shared/_MasterAdmin.cshtml";
+}
+
+@model IEnumerable<ProjetoLeLol.Models.Championship>
+
+<div class="jumbotron">
+    <h2>Campeonatos</h2>
+
+    <div class="jumbotron">
+        <h2>Lista de Campeonato</h2>
+        <table class="table table-bordered" id="tblPlayer" style="color: black; background-color: white">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Prêmio</th>
+                    <th>Data</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    <tr>
+                        <td>@c.Title</td>
+                        <td>@c.Prize</td>
+                        <td>@c.StartDate.ToString()</td>
+                        <td>
+                            <button class="btn btn-primary btn-large" name="@c.Id" title="Visualizar"><i class="fa fa-eye"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

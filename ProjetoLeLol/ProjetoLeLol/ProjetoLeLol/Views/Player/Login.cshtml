@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+@model ProjetoLeLol.Models.ErrorView
+
+<script>
+    $(document).ready(function () {
+        CheckError();
+    });
+
+    function CheckError() {
+        var hasError = document.getElementById("hdnErr").className;
+        var errMsg = $("#hdnErr").val();
+
+        if (hasError == "True")
+            window.alert(errMsg);
+    }
+</script>
+
+<br />
+<br />
+<br />
+<br />
+<div class="jumbotron" style="width: 28%; padding: 5px; margin-left: auto; min-width: 319px; margin-right: auto; background-color: rgba(255, 255, 255, 0.28);">
+    <input type="hidden" id="hdnErr" value="@Model.MsgError" class="@Model.HasError.ToString()"/>
+    <form action="/player/PlayerLogin" method="POST">
+        <div class="divFields" style="height: 70px;">
+            <label class="label">Email</label>
+            <br />
+            <input class="txtFields" type="text" id="txtLogin" name="txtLogin" style="width: 100%" />
+        </div>
+        <div class="divFields" style="height: 70px;">
+            <label class="label">Senha</label>
+            <br />
+            <input class="txtFields" type="password" id="txtPassword" name="txtPassword" style="width: 100%" />
+        </div>
+        <div class="divbtn" style="height: 70px; margin-bottom: 70px;">
+            <div class="g-recaptcha" data-sitekey="6Lf7tAQTAAAAAGXA4F2xWIY8YG8lJJTzTkTWY7C2"></div>
+            <input id="btnGo" type="submit" class="btn btn-primary btn-large" value="Login" />
+        </div>
+    </form>
+    <div style="height: 50px;">
+        <a href="/Player/Forget">Esqueceu sua senha?</a>
+        <br />
+        <a href="/Player/Create">Cadastre-se. É grátis!</a>
+    </div>
+</div>

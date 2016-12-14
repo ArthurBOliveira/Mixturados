@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_Master2.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $('#btnConfirm').click(Request);
+    });
+
+    function Request() {
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("create", "NoLag")",
+            success: function (result) {
+                if (result)
+                    document.location.href = "/nolag/Confirmed";
+                else
+                    window.alert("Você precisa estar logado em nosso site para fazer o pedido.");
+            }
+        });
+    }
+</script>
+
+<div class="jumbotron">
+    <p>O atendimento é realizado via suporte remoto após o pagamento no site através do Pagseguro da Uol.</p>
+
+    <p>A otimização é feita através da desativação / desinstalação de tarefas, serviços e programas não utilizados ou não conhecidos 
+    no computador/notebook do cliente, além de uma limpeza geral incluindo remoção de vírus, sequestradores de navegador e de search
+    engine, desfragmentação, configuração correta da bios (sem overclock) e dos perfis de configuração da placa de vídeo, entre 
+    outros procedimentos que irão variar de acordo com a situação de cada máquina.</p>
+
+    <p>O público final é o público gamer, porém a otimização agiliza computadores em geral, independente se a pessoa joga ou não.</p>
+
+    <p>Conheça um pouco mais da nossa proposta de atendimento e sane todas as suas dúvidas. A garantia é de uma máquina com velocidade
+    superior em todos os quesitos e livre de quaisquer problemas causados por falhas do Sistema Operacional.</p>
+
+    <p>Skype: iniciativanolag</p>
+    <p>email: iniciativanolag@gmail.com</p>
+    <p>Facebook: <a href="http://www.facebook.com/iniciativanolag">www.facebook.com/iniciativanolag</a></p>
+    <p>Site: <a href="http://iniciativanolag.blogspot.com.br">iniciativanolag.blogspot.com.br</a></p>
+
+
+    <p>Quer aumentar seu FPS e resolver os problemas do seu PC/Notebook a um bom preço?
+    Iniciativa NoLag, excelência em suporte remoto! Atendimento para todo o Brasil! 
+    Acesse o site da Iniciativa NoLag: <a href="http://goo.gl/lzg5n7">http://goo.gl/lzg5n7</a> </p>
+
+    <button id="btnConfirm" class="btn btn-success btn-large" type="button">Requerer o serviço</button>
+</div>

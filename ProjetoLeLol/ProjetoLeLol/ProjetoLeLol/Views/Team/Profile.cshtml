@@ -1,0 +1,179 @@
+﻿@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+@model ProjetoLeLol.ViewModel.TeamProfileVM
+
+<script>
+    $(document).ready(function () {
+        var panels = $('.user-infos');
+        var panelsButton = $('.dropdown-user');
+        panels.hide();
+
+        //Click dropdown
+        panelsButton.click(function () {
+            //get data-for attribute
+            var dataFor = $(this).attr('data-for');
+            var idFor = $(dataFor);
+
+            //current button
+            var currentButton = $(this);
+            idFor.slideToggle(400, function () {
+                //Completed slidetoggle
+                if (idFor.is(':visible')) {
+                    currentButton.html('<i class="glyphicon glyphicon-chevron-up text-muted"></i>');
+                }
+                else {
+                    currentButton.html('<i class="glyphicon glyphicon-chevron-down text-muted"></i>');
+                }
+            })
+        });
+
+        $(".btnProf").click(PlayerProfile);
+        $("#btnInvite").click(InviteTeam);
+    });
+
+    function InviteTeam() {
+        var id = $(this).attr('name');
+
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("TeamCall", "Team")",
+            data: "&id_team=" + id,
+            success: function (result) {
+                if (result)
+                    window.alert("Foi enviado uma notificação ao time");
+                else
+                    window.alert("Seu time está cheio ou o jogador já possui um time");
+            }
+        });
+    }
+
+    function PlayerProfile() {
+        var id = $(this).attr('name');
+
+        document.location.href = "/player/profiles?&id_player=" + id;
+    }
+</script>
+
+<style>
+    .user-row {
+        margin-bottom: 14px;
+    }
+
+        .user-row:last-child {
+            margin-bottom: 0;
+        }
+
+    .dropdown-user {
+        margin: 13px 0;
+        padding: 5px;
+        height: 100%;
+    }
+
+        .dropdown-user:hover {
+            cursor: pointer;
+        }
+
+    .table-user-information > tbody > tr {
+        border-top: 1px solid rgb(221, 221, 221);
+    }
+
+        .table-user-information > tbody > tr:first-child {
+            border-top: 0;
+        }
+
+
+        .table-user-information > tbody > tr > td {
+            border-top: 0;
+        }
+
+    .toppad {
+        margin-top: 20px;
+    }
+
+    label {
+        margin-top: 5px;
+    }
+</style>
+
+<div class="jumbotron">
+    <input type="hidden" id="PlayerId" name="@Model.Team.Id" />
+    <div class="row" style="background: url(/Images/MarcaDAgua-JanelasLaranja.png) no-repeat; background-size: 300px; background-position: 50%;">
+        <div class="panel panel-info">
+            <div class="panel-heading" style="color: #0d0d0d;">
+                <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>@Model.Team.Tag</b></h3>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <table class="table table-user-information" style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label class="label">Nome</label></td>
+                                <td>
+                                    <label class="label">@Model.Team.Name</label></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="label">Data de Cadastro</label></td>
+                                <td>
+                                    <label class="label">@Model.Team.DateCreated.ToString("dd/MM/yyyy")</label></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="label">Página</label></td>
+                                <td>
+                                    <label class="label"><a href="@Model.Team.Page">@Model.Team.Page</a></label></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="label">Horário de Treino</label></td>
+                                <td>
+                                    <label class="label">@Model.Team.Schedule.ToString()</label></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="label">Capitão</label></td>
+                                <td>
+                                    <label class="label">@Model.Team.Captain.Nick</label>
+                                    <button name="@Model.Team.Captain.Id" title="Perfil" class="btn btn-sm btn-primary btnProf"><i class="fa fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            @if (Model.Team.SubCaptain.Id != 0)
+                            {
+                                <tr>
+                                    <td>
+                                        <label class="label">Sub Capitão</label></td>
+                                    <td>
+                                        <label class="label">@Model.Team.SubCaptain.Nick</label>
+                                        <button name="@Model.Team.SubCaptain.Id" title="Perfil" class="btn btn-sm btn-primary btnProf"><i class="fa fa-eye"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                            @foreach (ProjetoLeLol.Models.Player p in Model.Team.Players)
+                            {
+                                <tr>
+                                    <td>
+                                        <label class="label">Jogador</label></td>
+                                    <td>
+                                        <label class="label">@p.Nick</label>
+                                        <button name="@p.Id" title="Perfil" class="btn btn-sm btn-primary btnProf"><i class="fa fa-eye"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @if (Model.CurrentPlayer.Id != 0 && !Model.CurrentPlayer.IsCaptain && !Model.CurrentPlayer.IsSubCaptain)
+            {
+                <div class="panel-footer">
+                    <button class="btn btn-primary btn-large" id="btnInvite" name="@Model.Team.Id" title="Pedir para participar"><i class="fa fa-envelope-o"></i></button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

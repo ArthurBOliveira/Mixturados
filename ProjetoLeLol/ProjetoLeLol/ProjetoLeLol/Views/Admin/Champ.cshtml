@@ -1,0 +1,196 @@
+﻿@{
+    ViewBag.Title = "Player";
+    Layout = "~/Views/Shared/_MasterAdmin.cshtml";
+}
+
+@model IEnumerable<ProjetoLeLol.Models.Game>
+
+<script>
+    $(document).ready(function () {
+        $("#btnStart").click(champStart);
+        $("#btnEndRound").click(endRound);
+        $("#btnEndGame").click(endGame);
+        $("#btnEndchamp").click(Endchamp);
+        $("#btnStatistics").click(Statistics);
+        $("#btnUpdateNick").click(UpdateNick);
+    });
+
+    function champStart() {
+        var id_champ= $("#txtChamp").val();
+        
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("ChampionshipStart", "Championship")",
+            data: "&id_champ=" + id_champ,
+            success: function (result) {
+                if (result) {
+                    window.alert("Campeonato iniciado");
+                }
+                else
+                    window.alert("Erro");
+            }
+        });
+    }
+
+    function endRound() {
+        var id_champ = $("#txtIdChampEndRound").val();
+
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("ChampionshipEndRound", "Championship")",
+            data: "&id_champ=" + id_champ,
+            success: function (result) {
+                if (result) {
+                    window.alert("Fim de round");
+                }
+                else
+                    window.alert("Erro");
+            }
+        });
+    }
+
+    function endGame() {
+        var id_game = $("#txtIdGameEnd").val();
+        var id_team = $("#txtIdWinnerGameEnd").val();
+        var obs = $("#txtObsGameEnd").val();
+
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("GameEnd", "Championship")",
+            data: "&id_game=" + id_game + "&id_team=" + id_team + "&obs=" + obs,
+            success: function (result) {
+                if (result)
+                    window.alert("Fim de jogo");
+                else
+                    window.alert("Erro");
+            }
+        });
+    }
+
+    function Endchamp() {
+        var id_champ_old = $("#txtIdChampEndOld").val();
+        var id_champ_new = $("#txtIdChampEndNew").val();
+
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("ChampionshipEnd", "Championship")",
+            data: "&id_champ_old=" + id_champ_old + "&id_champ_new=" + id_champ_new,
+            success: function (result) {
+                if (result) {
+                    window.alert("Fim de Campeonato");
+                }
+                else
+                    window.alert("Erro");
+            }
+        });
+    }
+
+    function Statistics() {
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("PlayerStatistics", "Player")",
+            success: function (result) {
+                if (result) {
+                    window.alert("Jogadores Atualizados");
+                }
+                else
+                    window.alert("Erro");
+            }
+        });
+    }
+
+    function UpdateNick() {
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("PlayerUpdateNick", "Player")",
+            success: function (result) {
+                if (result) {
+                    window.alert("Jogadores Atualizados");
+                }
+                else
+                    window.alert("Erro");
+            }
+        });
+    }
+</script>
+
+<div class="jumbotron" style="color: #939393;">
+    <h2>Admin</h2>
+
+    <label>Atualizar Estatísticas dos Jogadores</label>
+    <button id="btnStatistics" class="btn btn-sm btn-primary">Atualizar Estatísticas</button>
+
+    <p>---------------------------------------</p>
+
+    <label>Atualizar Estatísticas dos Jogadores</label>
+    <button id="btnUpdateNick" class="btn btn-sm btn-primary">Atualizar Nicks</button>
+
+    <p>---------------------------------------</p>
+
+    <label>Id Campeonato pra iniciar</label>
+    <input type="text" id="txtChamp" />
+    <button id="btnStart" class="btn btn-sm btn-primary">Iniciar Campeonato Atual</button>
+
+    <p>---------------------------------------</p>
+
+    <label>Finalizar round</label>
+    <input type="text" id="txtIdChampEndRound" />
+    <button id="btnEndRound" class="btn btn-sm btn-primary">Fim de Round</button>
+
+    <p>---------------------------------------</p>
+
+    <label>Finalizar Campeonato</label>
+    <input type="text" id="txtIdChampEndOld" />
+    <input type="text" id="txtIdChampEndNew" />
+    <button id="btnEndchamp" class="btn btn-sm btn-primary">Fim de Campeonato</button>
+
+    <p>---------------------------------------</p>
+
+    <label>Finalizar Game</label>
+    <input type="text" id="txtIdGameEnd" />
+    <br />
+    <label>Id time vencedor</label>
+    <input type="text" id="txtIdWinnerGameEnd" />
+    <br />
+    <label>Obs</label>
+    <textarea id="txtObsGameEnd"></textarea>
+    <br />
+    <button id="btnEndGame" class="btn btn-sm btn-primary">Fim de game</button>
+</div>
+
+<br />
+
+<script>
+    $(document).ready(function () {
+        $('#tblGames').DataTable();
+    });
+</script>
+
+<div class="jumbotron">
+    <h2>Partidas</h2>
+    <table class="table table-bordered" id="tblGames" style="background-color: white; color: #939393;">
+        <thead>
+            <tr>
+                <th>id_game</th>
+                <th>id_time1</th>
+                <th>id_time2</th>
+                <th>round</th>
+                <th>id_winner</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var g in Model)
+            {
+                <tr>
+                    <td>@g.Id</td>
+                    <td>@g.Team1.Id</td>
+                    <td>@g.Team2.Id</td>
+                    <td>@g.Round</td>
+                    <td>@g.Winner.Id</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<br />

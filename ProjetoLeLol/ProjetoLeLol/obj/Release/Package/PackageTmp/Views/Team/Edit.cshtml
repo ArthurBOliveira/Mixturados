@@ -1,0 +1,249 @@
+﻿@{
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+@model ProjetoLeLol.ViewModel.TeamEditVM
+
+<script>
+    var id_team = @Model.Team.Id
+
+    $(document).ready(function () {
+        $('#tblPlayer').DataTable({ "bLengthChange": false });
+        $('.view').click(PlayerProfile);
+        $('.btnProm').click(Prom);
+        $('.btnRem').click(PRem);
+        $('.btnDem').click(Dem);
+        $('#btnDel').click(Del);
+        $('.btnLeave').click(Leave);
+        CheckError();
+    });
+
+    function PRem() {
+        var id = $(this).attr('name');
+
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("PlayerRem", "Team")",
+            data: "&id_player=" + id + "&id_team=" + id_team,
+            success: function (result) {
+                if (result) {
+                    document.location.href = "/team/edit";
+                }
+                else
+                    window.alert("Erro!");
+            }
+        });
+    }
+
+    function CheckError() {
+        var hasError = document.getElementById("hdnErr").className;
+        var errMsg = $("#hdnErr").val();
+
+        if (hasError == "True")
+            window.alert(errMsg);
+    }
+
+    function Prom() {
+        var id = $(this).attr('name');
+
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("TeamPromoteSub", "Team")",
+            data: "&id_player=" + id + "&id_team=" + id_team,
+            success: function (result) {
+                if (result) {
+                    document.location.href = "/team/edit";
+                }
+                else
+                    window.alert("Erro!");
+            }
+        });
+    }
+
+    function Dem() {
+        var id = $(this).attr('name');
+
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("TeamDemoteSub", "Team")",
+            data: "&id_player=" + id + "&id_team=" + id_team,
+            success: function (result) {
+                if (result) {
+                    document.location.href = "/team/edit";
+                }
+                else
+                    window.alert("Erro!");
+            }
+        });
+    }
+
+    function Del() {
+        var r = confirm("Você tem certeza que deseja excluir o seu time?");
+        if (r == true) {
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("TeamDelete", "Team")",
+                data: "&id_team=" + id_team,
+                success: function (result) {
+                    if (result)
+                        document.location.href = "/home/index";
+                    else
+                        window.alert("Erro!");
+                }
+            });
+        }
+    }
+
+    function Leave() {
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("TeamLeave", "Team")",
+            //data: "&id_player=" + id + "&id_team=" + id_team,
+            success: function (result) {
+                if (result) {
+                    document.location.href = "/home/index";
+                }
+                else
+                    window.alert("Erro!");
+            }
+        });
+    }
+
+    function PlayerProfile() {
+        var id = $(this).attr('name');
+
+        document.location.href = "/player/profiles?&id_player=" + id;
+    }
+</script>
+
+<div class="jumbotron">
+    <input type="hidden" id="hdnErr" value="@Model.Err.MsgError" class="@Model.Err.HasError.ToString()"/>
+    @if (Model.CurrentPlayer.IsCaptain && Model.Team.Captain.Id == Model.CurrentPlayer.Id)
+    {
+        <div class="divCentral">
+            <form action="/team/EditTeam" method="POST">
+                <div class="divFields">
+                    <label class="label">Nome</label>
+                    <input type="text" value="@Model.Team.Name" style="width: 70%;" name="txtName"/>
+                </div>
+                <div class="divFields">
+                    <label class="label">Tag</label>
+                    <input type="text" value="@Model.Team.Tag" style="width: 70%;" name="txtTag"/>
+                </div>
+                <div class="divFields">
+                    <label class="label">Page</label>
+                    <input type="text" value="@Model.Team.Page" style="width: 70%;" name="txtPage"/>
+                </div>
+                <div class="divFields">
+                    <label class="label">Horário de treino</label>
+                    <select name="selSchedule" style="width: 70%;">
+                        @foreach (ProjetoLeLol.Models.Schedule r in Model.Schedules)
+                        {
+                            if (Model.Team.Schedule == r)
+                            {
+                            <option selected="selected">@r</option>
+                            }
+                            else
+                            {
+                            <option>@r</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <input type="submit" id="btnGo" class="btn btn-primary btn-large" value="Editar" />
+            </form>
+        </div>
+        <br />
+        <div class="divFields">
+            <input type="button" id="btnDel" class="btn btn-danger btn-large" title="Deletar Time" value="Deletar Time" />
+        </div>
+    }
+    <br />
+    <div class="row">
+        <div class="panel">
+            <div class="panel-heading" style=" color: #0d0d0d;">
+                <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>Lista de Jogadores</b></h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered" id="tblPlayer">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Nome</th>
+                            <th>Nick</th>
+                            <th>Role Principal</th>
+                            <th>Horário</th>
+                            <th>Estado</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Capitão</b></td>
+                            <td>@Model.Team.Captain.Name</td>
+                            <td>@Model.Team.Captain.Nick</td>
+                            <td>@Model.Team.Captain.Role1.ToString()</td>
+                            <td>@Model.Team.Captain.Schedule.ToString()</td>
+                            <td>@Model.Team.Captain.State.ToString()</td>
+                            <td>
+                                <button class="btn btn-primary btn-large view" name="@Model.Team.Captain.Id" title="Visualizar"><i class="fa fa-eye"></i></button>
+                            </td>
+                        </tr>
+                        @if (Model.Team.SubCaptain != null && Model.Team.SubCaptain.Id != 0)
+                        {
+                            <tr>
+                                <td><b>Sub Capitão</b></td>
+                                <td>@Model.Team.SubCaptain.Name</td>
+                                <td>@Model.Team.SubCaptain.Nick</td>
+                                <td>@Model.Team.SubCaptain.Role1.ToString()</td>
+                                <td>@Model.Team.SubCaptain.Schedule.ToString()</td>
+                                <td>@Model.Team.SubCaptain.State.ToString()</td>
+                                <td>
+                                    <button class="btn btn-primary btn-large view" name="@Model.Team.SubCaptain.Id" title="Visualizar"><i class="fa fa-eye"></i></button>
+                                    @if (Model.CurrentPlayer.IsCaptain && Model.Team.Captain.Id == Model.CurrentPlayer.Id)
+                                    {
+                                        <button class="btn btn-danger btn-large btnDem" name="@Model.Team.SubCaptain.Id" title="Rebaixar"><i class="fa fa-arrow-down"></i></button>
+                                        <button class="btn btn-danger btn-large btnRem" name="@Model.Team.SubCaptain.Id" title="Remover"><i class="fa fa-times"></i></button>
+                                    }
+                                    @if (Model.CurrentPlayer.IsSubCaptain && Model.Team.SubCaptain.Id == Model.CurrentPlayer.Id)
+                                    {
+                                        <button class="btn btn-danger btn-large btnLeave" name="@Model.Team.SubCaptain.Id" title="Rebaixar"><i class="fa fa-arrow-down"></i></button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        @if (Model.Team.Players != null)
+                        {
+                            foreach (var p in Model.Team.Players)
+                            {
+                            <tr>
+                                <td>Membro</td>
+                                <td>@p.Name</td>
+                                <td>@p.Nick</td>
+                                <td>@p.Role1.ToString()</td>
+                                <td>@p.Schedule.ToString()</td>
+                                <td>@p.State.ToString()</td>
+                                <td>
+                                    <button class="btn btn-primary btn-large view" name="@p.Id" title="Visualizar"><i class="fa fa-eye"></i></button>
+                                    @if ((Model.CurrentPlayer.IsCaptain && Model.Team.Captain.Id == Model.CurrentPlayer.Id) && Model.Team.SubCaptain.Id == 0)
+                                    {
+                                        <button class="btn btn-success btn-large btnProm" name="@p.Id" title="Promover"><i class="fa fa-arrow-up"></i></button>
+                                    }
+                                    @if ((Model.CurrentPlayer.IsCaptain && Model.Team.Captain.Id == Model.CurrentPlayer.Id) || (Model.CurrentPlayer.IsSubCaptain && Model.Team.SubCaptain.Id == Model.CurrentPlayer.Id))
+                                    {                            
+                                        <button class="btn btn-danger btn-large btnRem" name="@p.Id" title="Remover"><i class="fa fa-times"></i></button>
+                                    }
+                                    @if (Model.CurrentPlayer.Id == p.Id)
+                                    {
+                                        <button class="btn btn-danger btn-large btnLeave" name="@p.Id" title="Sair"><i class="fa fa-times"></i></button>
+                                    }
+                                </td>
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

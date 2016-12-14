@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Vakinha";
+}
+<style>
+    label {
+        color: white;
+    }
+</style>
+
+<div class="jumbotron">
+    <div>
+        <h2 style="color: white;">Dados da Conta</h2>
+        <br />
+        <label>vakinha@mixturadoslol.com.br</label>
+        <br />
+        <label>Ag: 0080-9; CC: 83369-x; Banco de Brasil - Data de Vencimento: 5º dia útil</label>
+        <br />
+        <br />
+        <label style="font-size: 25px;">Valor Arrecadado Mensal: </label>
+        <label style="color: red; font-size: 25px;">R$ 100,00</label>
+        <br />
+        <h3 style="color: red;">Despesas</h3>
+        <i style="color: red; margin-right: 5px;" class="fa fa-times"></i>
+        <label>Manutenção do Site: </label>
+        <label style="color: green">R$ 60,00</label>
+        <br />
+        <i style="color: red; margin-right: 5px;" class="fa fa-times"></i>
+        <label>Manutenção da Empresa: </label>
+        <label style="color: green">R$ 50,00</label>
+        <br />
+        <i style="color: red; margin-right: 5px;" class="fa fa-times"></i>
+        <label>RiqueSoft: </label>
+        <label style="color: red">R$ 30,00</label>
+        <br />
+        <i style="color: red; margin-right: 5px;" class="fa fa-times"></i>
+        <label>Cartão de Crédito Empresarial: </label>
+        <label style="color: red">R$ 40,00</label>
+        <br />
+        <h3 style="color: white;">O Excedente vai para a poupança</h3>
+        <label>Poupança: </label>
+        <label style="color: green;">R$ 0,00</label>
+        <br />
+        <label style="font-size: 11px">A poupança será usada para investimento a curto e longo prazo como sorteio em live, sorteio interno, publicidade, etç.</label>
+
+        <div>
+            <!-- INICIO FORMULARIO BOTAO PAGSEGURO -->
+            <form action="https://pagseguro.uol.com.br/checkout/v2/cart.html?action=add" method="post" onsubmit="PagSeguroLightbox(this); return false;">
+                <!-- NÃO EDITE OS COMANDOS DAS LINHAS ABAIXO -->
+                <input type="hidden" name="itemCode" value="720503D49F9F82F114A08F8C728AC5C9" />
+                <input type="image" src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/pagamentos/209x48-pagar-azul-assina.gif" name="submit" alt="Pague com PagSeguro - é rápido, grátis e seguro!" />
+            </form>
+            <script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js"></script>
+            <!-- FINAL FORMULARIO BOTAO PAGSEGURO -->
+        </div>
+    </div>
+</div>

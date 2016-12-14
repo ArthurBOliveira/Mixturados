@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Show";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+@model IEnumerable<ProjetoLeLol.Models.Player>
+
+<script>
+    $(document).ready(function () {
+        $(".btn").click(PlayerProfile);
+        $('#tblPlayer').DataTable();
+    });
+
+    function PlayerProfile() {
+        var id = $(this).attr('name');
+
+        var win = window.open("/player/profiles?&id_player=" + id, '_blank');
+        win.focus();
+
+        //document.location.href = "/player/profiles?&id_player=" + id;
+    }
+</script>
+
+<div class="jumbotron">
+    <div class="row" style="background: url(/Images/MarcaDAgua-JanelasLaranja.png) no-repeat; background-size: 560px; background-position: 50%; border: 0;">
+        <div class="panel" >
+            <div class="panel-heading">
+                <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>Lista de Jogadores</b></h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered" id="tblPlayer">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Nick</th>
+                            <th>Role Principal</th>
+                            <th>Role Secundária</th>
+                            <th>Horário</th>
+                            <th>Estado</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var p in Model)
+                        {
+                            <tr>
+                                <td>@p.Name</td>
+                                <td>@p.Nick</td>
+                                <td>@p.Role1.ToString()</td>
+                                <td>@p.Role2.ToString()</td>
+                                <td>@p.Schedule.ToString()</td>
+                                <td>@p.State.ToString()</td>
+                                <td>
+                                    <button class="btn btn-primary btn-large" name="@p.Id" title="Visualizar"><i class="fa fa-eye"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

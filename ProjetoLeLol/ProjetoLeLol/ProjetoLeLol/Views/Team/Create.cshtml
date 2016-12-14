@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+
+@model ProjetoLeLol.ViewModel.TeamCreateVM
+
+<script>
+    $(document).ready(function () {
+        CheckError();
+    });
+
+    function CheckError() {
+        var hasError = document.getElementById("hdnErr").className;
+        var errMsg = $("#hdnErr").val();
+
+        if (hasError == "True")
+            window.alert(errMsg);
+    }
+</script>
+
+
+<div class="jumbotron" style="height: 400px;">
+    <div style="width: 40%; float: left; color: #939393; margin-right: 5%; background: url(/Images/MarcaDAgua-JanelasLaranja.png) no-repeat; background-size: contain; background-position-x: 50%;">
+        <input type="hidden" id="hdnErr" value="@Model.Err.MsgError" class="@Model.Err.HasError.ToString()"/>
+        <iframe width="490" height="315" src="https://www.youtube.com/embed/tXWv1hMkH0A" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <div style="width: 55%; float: left;">
+        <h2>Cadastro de Times</h2>
+        <br />
+        <div class="divCentral">
+            <form action="/team/NewTeam" method="POST">
+                <div class="divFields">
+                    <label class="label">Nome</label>
+                    <input class="txtFields" type="text" id="txtName" name="txtName" />
+                </div>
+                <div class="divFields">
+                    <label class="label">Tag</label>
+                    <input class="txtFields" type="text" id="txtTag" name="txtTag" />
+                </div>
+                <div class="divFields">
+                    <label class="label">Página</label>
+                    <input class="txtFields" type="text" id="txtPage" name="txtPage" />
+                </div>
+                <div class="divFields">
+                    <label class="label">Horário de treino</label>
+                    <select name="selSchedule" class="selectpicker" style="width: 70%">
+                        @foreach (ProjetoLeLol.Models.Schedule r in Model.Schedules)
+                        {
+                            <option>@r</option>
+                        }
+                    </select>
+                </div>
+                <div class="divBtn">
+                    <div style="margin-left: 38%" class="g-recaptcha" data-sitekey="6Lf7tAQTAAAAAGXA4F2xWIY8YG8lJJTzTkTWY7C2"></div>
+                    <input type="submit" id="btnGo" value="Criar time" class="btn btn-primary btn-large" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

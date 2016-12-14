@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "league";
+}
+
+@model ProjetoLeLol.ViewModel.LeagueVM
+
+<script>
+    $(document).ready(function () {
+        $(".btn").click(TeamProfile);
+        $('#tblLeague').DataTable({
+            "order": [[1, "desc"]]
+        });
+    });
+
+    function TeamProfile() {
+        var id = $(this).attr('name');
+
+        var win = window.open("/team/profiles?id_team=" + id, '_blank');
+        win.focus();
+    }
+</script>
+
+<div class="jumbotron">
+    <div class="row" style="background: url(/Images/MarcaDAgua-JanelasLaranja.png) no-repeat; background-size: 560px; background-position: 50%; border: 0;">
+        <div class="panel">
+            <div class="panel-heading" style="background-color: #f87e00; color: #0d0d0d;">
+                <h3 class="panel-title" style="font-size: 15pt; vertical-align: central;"><b>Times Pontuados</b></h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered" id="tblLeague" style="background-color: white; color: #939393;">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Pontos</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var p in Model.LeagueTeams)
+                        {
+                            <tr>
+                                <td>@p.Team.Name</td>
+                                <td>@p.Points.ToString()</td>
+                                <td>
+                                    <button class="btn btn-primary btn-large" name="@p.Team.Id" title="Visualizar"><i class="fa fa-eye"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "ForgetPass";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $("#btnSend").click(Send);
+    });  
+
+    function Send() {
+        var subject = $("#txtEmail").val();      
+
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("Forget", "Player")",
+            data: "&subject=" + subject,
+            success: function (result) {
+                if (result) {
+                    window.alert("Uma nova senha foi enviado para o seu email,");
+                }
+                else
+                    window.alert("Erro");
+            }
+        });
+    }
+</script>
+
+<div class="jumbotron" style="color: #939393;">
+    <h2>Esqueci senha</h2>
+
+    <label>Email</label>
+    <br />
+    <input type="text" id="txtEmail" />
+    <br />
+    <input value="Enviar" type="button" id="btnSend" class="btn btn-sm btn-primary"/>
+</div>
+

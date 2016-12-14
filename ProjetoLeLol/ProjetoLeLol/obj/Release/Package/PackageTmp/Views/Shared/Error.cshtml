@@ -1,0 +1,13 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_Master3.cshtml";
+}
+
+<div class="divCentral" style="width: 68%;">
+    <h2>Sessão Expirada</h2>
+    <p>Você não tem permissão para acessar está página.</p>
+    <p>Por favor refaça seu login.</p>
+    <a class="btn btn-primary btn-large" href="/Player/Login">Login</a>
+</div>

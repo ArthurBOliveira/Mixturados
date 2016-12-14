@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_MasterAdmin.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $("#btnSend").click(Send);
+    });  
+
+    function Send() {
+        var subject = $("#txtSubject").val();
+        var body = $("#txtBody").val();       
+
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("SendEmail", "Email")",
+            data: "&subject=" + subject + "&body=" + body,
+            success: function (result) {
+                if (result) {
+                    window.alert("Enviado");
+                }
+                else
+                    window.alert("Erro");
+            }
+        });
+    }
+</script>
+
+<div class="jumbotron" style="color: #939393;">
+    <h2>Email</h2>
+
+    <label>Título</label>
+    <br />
+    <input type="text" id="txtSubject" />
+    <br />
+    <label>Corpo do email</label>
+    <br />
+    <textarea id="txtBody" style="width: 400px; height: 400px;"></textarea>
+    <br />
+    <input value="Enviar" type="button" id="btnSend" class="btn btn-sm btn-primary"/>
+</div>

@@ -1,0 +1,82 @@
+﻿@{
+    Layout = "~/Views/Shared/_MasterAdmin.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        $("#btnGo").click(Verify);       
+    });
+
+    function Verify() {
+        var title = $("#txtTitle").val();
+        var content = $("#txtContent").val();
+        var link = $("#txtLink").val();
+        var img = $("#txtImg").val();
+
+        if (CheckFields()) {
+            $.ajax({
+                type: 'POST',               
+                url: "@Url.Action("Create", "News")",
+                data: "&title=" + title + "&content=" + content + "&link=" + link + "&img=" + img,
+                success: function (result) {
+                    if (result)
+                        window.alert("Cadastrado com sucesso");
+                    else
+                        window.alert("Erro");
+                }
+            });
+        }
+    }
+
+    function CheckFields() {
+        var title = $("#txtTitle").val();
+        var content = $("#txtContent").val();
+        var link = $("#txtLink").val();
+        var img = $("#txtImg").val();
+
+        if (title == "" || title == null) {
+            $("#txtTitle").css("background-color", "Red");
+            return false;
+        }
+        if (content == "" || content == null) {
+            $("#txtContent").css("background-color", "Red");
+            return false;
+        }
+        if (link == "" || link == null) {
+            $("#txtLink").css("background-color", "Red");
+            return false;
+        }
+        if (img == "" || img == null) {
+            $("#txtImg").css("background-color", "Red");
+            return false;
+        }
+        return true;
+    }
+</script>
+
+
+<div class="jumbotron">
+    <h2>Cadastro de Times</h2>
+    <br />
+    <div class="divCentral">
+        <div class="divFields">
+            <label class="label">Título</label>
+            <input class="txtFields" type="text" id="txtTitle" />
+        </div>
+        <div class="divFields">
+            <label class="label">Conteudo</label>
+            <textarea class="txtFields" id="txtContent" style="height: 300px;"></textarea>
+        </div>
+        <div class="divFields">
+            <label class="label">Link para o Blog</label>
+            <input class="txtFields" type="text" id="txtLink" />
+        </div>
+        <div class="divFields">
+            <label class="label">Link da imagem principal</label>
+            <input class="txtFields" type="text" id="txtImg" />
+        </div>
+        <div class="divBtn">
+            <input type="button" id="btnGo" value="Go" class="btn btn-primary btn-large"/>
+        </div>
+    </div>
+</div>
+
